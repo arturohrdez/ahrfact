@@ -23,14 +23,18 @@ use yii\filters\AccessControl;
 
 class SiteController extends Controller {
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -65,7 +69,10 @@ class SiteController extends Controller {
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-        $model = new LoginForm();
+        
+        //Layout Login
+        $this->layout = "main-login";
+        $model        = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {
