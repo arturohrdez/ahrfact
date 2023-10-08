@@ -66,8 +66,35 @@ class SiteController extends Controller {
     }
 
     public function actionEmpresa(){
-        return $this->render('empresa');   
-    }
+        $tabId = Yii::$app->request->get("id",null);
+
+        if(is_null($tabId)){
+            return $this->render('empresa');
+        }//end if   
+
+        switch ($tabId) {
+            case 1:
+                // code...
+                return $this->renderAjax('_datosfiscales');
+                break;
+            case 2:
+                // code...
+                break;
+            case 3:
+                // code...
+                break;
+            case 4:
+                // code...
+                break;
+            case 5:
+                // code...
+                break;
+            default:
+                // code...
+                return $this->renderAjax('_datosfiscales');
+                break;
+        }//end switch
+    }//end function
 
     public function actionLogin() {
         if (!\Yii::$app->user->isGuest) {

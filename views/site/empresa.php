@@ -29,18 +29,27 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
 	</div>
 </div>
 
-<div id="content" class="row">
-	<div class="col-12">
-		Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita recusandae dolore possimus explicabo id, libero cupiditate beatae veniam non omnis, quis nisi nobis fugiat quos harum quod illum, ex nulla?
-	</div>
-</div>
+<div id="content"></div>
 
 
 <?php
+$URL_Empresa   = Url::to(['site/empresa']);
 $script = <<< JS
 $(".tabconf").on("click",function(e){
 	var id = $(this).data("id");
-
+	$.ajax({
+		url     : "{$URL_Empresa}",
+		type    : 'GET',
+		dataType: 'HTML',
+		data    : {"id":id},
+		beforeSend: function(data){
+			console.log("beforeSend");
+		},
+		success: function(response) {
+			$("#content").html(response);
+			//console.log(response);
+		}
+	});
 });
 JS;
 $this->registerJs($script);
