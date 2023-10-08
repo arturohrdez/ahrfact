@@ -30,11 +30,11 @@ class SiteController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error','signup'],
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index','empresa'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -65,6 +65,10 @@ class SiteController extends Controller {
         return $this->render('index');
     }
 
+    public function actionEmpresa(){
+        return $this->render('empresa');   
+    }
+
     public function actionLogin() {
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
@@ -89,6 +93,7 @@ class SiteController extends Controller {
     }
 
     public function actionSignup() {
+        $this->layout = "main-login";
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {

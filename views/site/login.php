@@ -3,7 +3,14 @@ use yii\helpers\Html;
 ?>
 <div class="card">
     <div class="card-body login-card-body">
-        <p class="login-box-msg">Iniciar Sesión</p>
+        <div class="login-logo">
+            <a href="<?=Yii::$app->homeUrl?>"><b>AHR</b>Fact</a>
+        </div>
+        <!-- /.login-logo -->
+        <h4 class="login-box-msg text-center font-weight-bold ">
+            Acceso al Sistema
+        </h4>
+        <hr>
 
         <?php $form = \yii\bootstrap4\ActiveForm::begin(['id' => 'login-form']) ?>
 

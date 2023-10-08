@@ -20,14 +20,9 @@ $this->registerCssFile('https://code.ionicframework.com/ionicons/2.0.1/css/ionic
     <?php $this->registerCsrfMetaTags() ?>
     <?php $this->head() ?>
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page bg-primary bg-gradient">
 <?php  $this->beginBody() ?>
 <div class="login-box">
-    <div class="login-logo">
-        <a href="<?=Yii::$app->homeUrl?>"><b>AHR</b>Fact</a>
-    </div>
-    <!-- /.login-logo -->
-
     <?= $content ?>
 </div>
 <!-- /.login-box -->

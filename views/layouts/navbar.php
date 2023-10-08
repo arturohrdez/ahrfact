@@ -10,9 +10,9 @@ use yii\helpers\Html;
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="<?=\yii\helpers\Url::home()?>" class="nav-link">Inicio</a>
-        </li>
+        <!-- <li class="nav-item d-none d-sm-inline-block">
+            <a href="<?//=\yii\helpers\Url::home()?>" class="nav-link">Inicio</a>
+        </li>-->
         <!-- <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Contact</a>
         </li> -->
@@ -174,7 +174,10 @@ use yii\helpers\Html;
             </div>
         </li> -->
         <li class="nav-item">
-            <?= Html::a('<i class="fas fa-sign-out-alt"></i>', ['/site/logout'], ['data-method' => 'post', 'class' => 'nav-link']) ?>
+            <?= Html::a('<i class="fas fa-cog"></i>', ['/site/empresa'], ['data-method' => 'post', 'class' => 'nav-link', 'title'=>'Configuración General']) ?>
+        </li>
+        <li class="nav-item">
+            <?= Html::a('<i class="fas fa-sign-out-alt"></i>', ['/site/logout'], ['data-method' => 'post', 'class' => 'nav-link', 'title'=>'Salir']) ?>
         </li>
         <!-- <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
