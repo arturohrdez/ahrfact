@@ -15,6 +15,8 @@ use app\models\PasswordResetRequestForm;
 use app\models\ResetPasswordForm;
 use app\models\SignupForm;
 use app\models\ContactForm;
+use app\models\Empresa;
+
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -74,8 +76,10 @@ class SiteController extends Controller {
 
         switch ($tabId) {
             case 1:
-                // code...
-                return $this->renderAjax('_datosfiscales');
+                $modelEmpresa = new Empresa();
+                return $this->renderAjax('_datosfiscales',[
+                    'modelEmpresa'=> $modelEmpresa,
+                ]);
                 break;
             case 2:
                 // code...
