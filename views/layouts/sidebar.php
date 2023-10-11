@@ -39,6 +39,7 @@ use yii\helpers\Url;
             <?php
             $items   = [];
             $items[] = ['label' => 'Inicio', 'icon' => 'fas fa-home', 'url' => [Url::to('/site/index')], 'target' => ''];
+            /*$items[] = ['label' => 'Configuración', 'icon' => 'fas fa-cog', 'url' => [Url::to('/site/empresa')], 'target' => ''];*/
             /*$items[] = ['label' => 'Rifas', 'icon' => 'fa fa-bolt', 'url' => [Url::to('/rifas/index')], 'target' => ''];
             $items[] = ['label' => 'Boletos Activos', 'icon' => 'fas fa-ticket-alt', 'url' => [Url::to('/tickets/index')], 'target' => ''];
             $items[] = ['label' => 'Boletos Vencidos', 'icon' => 'far fa-calendar-times', 'url' => [Url::to('/tickets/expirate')], 'target' => ''];

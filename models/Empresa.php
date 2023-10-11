@@ -62,8 +62,8 @@ class Empresa extends \yii\db\ActiveRecord
         return [
             'id'             => 'ID',
             'user_id'        => 'User ID',
-            'razon_social'   => 'Razon Social',
-            'nombre'         => 'Nombre',
+            'razon_social'   => 'Nombre o Razón Social',
+            'nombre'         => 'Nombre Comercial',
             'rfc'            => 'RFC',
             'curp'           => 'CURP',
             'calle'          => 'Calle',

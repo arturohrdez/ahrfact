@@ -8,7 +8,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
 	<div class="col-12">
 		<ul class="nav nav-tabs nav-fill nav-light">
 			<li class="nav-item">
-				<a data-toggle="tab" data-id="1"  class="tabconf nav-link active" aria-current="page" href="javascript:void(0);">Datos Fiscales</a>
+				<a id="empTab1" data-toggle="tab" data-id="1"  class="tabconf nav-link active" aria-current="page" href="javascript:void(0);">Datos Fiscales</a>
 			</li>
 			<li class="nav-item">
 				<a data-toggle="tab" data-id="2"  class="tabconf nav-link" href="javascript:void(0);">Impuestos</a>
@@ -35,6 +35,10 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
 <?php
 $URL_Empresa   = Url::to(['site/empresa']);
 $script = <<< JS
+$(function(e){
+	$("#empTab1").trigger('click');
+});
+
 $(".tabconf").on("click",function(e){
 	var id = $(this).data("id");
 	$.ajax({
@@ -43,7 +47,7 @@ $(".tabconf").on("click",function(e){
 		dataType: 'HTML',
 		data    : {"id":id},
 		beforeSend: function(data){
-			console.log("beforeSend");
+			$("#content").html('<div class="row"><div class="col-12 bg-white p-5"><div class="row justify-content-center border border-secodnary border-top-0"><div class="spinner-border text-teal" role="status"></div></div></div></div>');
 		},
 		success: function(response) {
 			$("#content").html(response);

@@ -43,7 +43,7 @@ use yii\helpers\Html;
                 ]) */?>
             </div> -->
             <div class="col-12">
-                <?= Html::submitButton('ENTRAR', ['class' => 'btn btn-block bg-gradient-danger']) ?>
+                <?= Html::submitButton('Iniciar Sesión', ['class' => 'btn btn-block bg-gradient-danger']) ?>
             </div>
         </div>
 

@@ -32,7 +32,7 @@ class SiteController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','signup'],
+                        'actions' => ['login', 'error','signup','saveempresa'],
                         'allow' => true,
                     ],
                     [
@@ -66,6 +66,13 @@ class SiteController extends Controller {
     public function actionIndex() {
         return $this->render('index');
     }
+
+    public function actionSaveempresa(){
+        echo "<pre>";
+        var_dump($_POST);
+        echo "</pre>";
+        die();
+    }//end function
 
     public function actionEmpresa(){
         $tabId = Yii::$app->request->get("id",null);
