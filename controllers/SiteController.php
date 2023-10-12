@@ -68,10 +68,34 @@ class SiteController extends Controller {
     }
 
     public function actionSaveempresa(){
+        $modelEmpresa = new Empresa();
         echo "<pre>";
-        var_dump($_POST);
+        var_dump($modelEmpresa);
         echo "</pre>";
-        die();
+        echo "<pre>";
+        var_dump(Yii::$app->request->post());
+        echo "</pre>";
+
+        if($modelEmpresa->load(Yii::$app->request->post())){
+            if($modelEmpresa->validate()){
+
+            }else{
+                $errors = $modelEmpresa->errors;
+                // Haz algo con los errores, por ejemplo, imprímelos
+                print_r($errors);
+            }//end if
+            die();
+            echo "<pre>";
+            var_dump($valid);
+            echo "</pre>";
+            $modelEmpresa->save();
+            echo "<pre>";
+            var_dump($modelEmpresa);
+            echo "</pre>";
+            die();
+        }//end if
+
+        return $this->redirect(['site/empresa']);
     }//end function
 
     public function actionEmpresa(){
