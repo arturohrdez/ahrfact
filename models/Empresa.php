@@ -10,19 +10,19 @@ use Yii;
  * @property int $id
  * @property int $user_id
  * @property string $razon_social
- * @property string $nombre
+ * @property string|null $nombre
  * @property string $rfc
- * @property string $curp
+ * @property string|null $curp
  * @property string $calle
  * @property int $no_exterior
- * @property string $no_interior
+ * @property string|null $no_interior
  * @property string $codigo_postal
  * @property string $colonia
  * @property string $localidad
  * @property string $municipio
  * @property string $estado
  * @property string $pais
- * @property string $referencia
+ * @property string|null $referencia
  * @property string $regimen_fiscal
  *
  * @property User $user
@@ -43,7 +43,7 @@ class Empresa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'razon_social', 'nombre', 'rfc', 'curp', 'calle', 'no_exterior', 'no_interior', 'codigo_postal', 'colonia', 'localidad', 'municipio', 'estado', 'pais', 'referencia', 'regimen_fiscal'], 'required'],
+            [['user_id', 'razon_social', 'rfc', 'calle', 'no_exterior', 'codigo_postal', 'colonia', 'localidad', 'municipio', 'estado', 'pais', 'regimen_fiscal'], 'required'],
             [['user_id', 'no_exterior'], 'integer'],
             [['razon_social', 'nombre', 'calle', 'colonia', 'localidad', 'municipio', 'estado', 'pais', 'referencia', 'regimen_fiscal'], 'string', 'max' => 255],
             [['rfc'], 'string', 'max' => 15],
@@ -60,22 +60,22 @@ class Empresa extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'             => 'ID',
-            'user_id'        => 'User ID',
-            'razon_social'   => 'Nombre o Razón Social',
-            'nombre'         => 'Nombre Comercial',
-            'rfc'            => 'RFC',
-            'curp'           => 'CURP',
-            'calle'          => 'Calle',
-            'no_exterior'    => 'No Exterior',
-            'no_interior'    => 'No Interior',
-            'codigo_postal'  => 'Codigo Postal',
-            'colonia'        => 'Colonia',
-            'localidad'      => 'Localidad',
-            'municipio'      => 'Municipio',
-            'estado'         => 'Estado',
-            'pais'           => 'País',
-            'referencia'     => 'Referencia',
+            'id' => 'ID',
+            'user_id' => 'User ID',
+            'razon_social' => 'Razon Social',
+            'nombre' => 'Nombre',
+            'rfc' => 'Rfc',
+            'curp' => 'Curp',
+            'calle' => 'Calle',
+            'no_exterior' => 'No Exterior',
+            'no_interior' => 'No Interior',
+            'codigo_postal' => 'Codigo Postal',
+            'colonia' => 'Colonia',
+            'localidad' => 'Localidad',
+            'municipio' => 'Municipio',
+            'estado' => 'Estado',
+            'pais' => 'Pais',
+            'referencia' => 'Referencia',
             'regimen_fiscal' => 'Regimen Fiscal',
         ];
     }
