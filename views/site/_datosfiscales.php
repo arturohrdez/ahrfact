@@ -1,24 +1,56 @@
 <?php 
 use yii\helpers\Html;
 use yii\bootstrap5\ActiveForm;
-
 ?>
 <div class="datosfiscales-create">
     <div class="row">
         <div class="col-12 bg-white">
+            <?php if (Yii::$app->session->hasFlash('success')): ?>
+                <div class="row justify-content-center" align="center">
+                    <div class="col-lg-12">
+                        <div class="alert bg-teal alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <i class="icon fa fa-check"></i> <?= Yii::$app->session->getFlash('success') ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if (Yii::$app->session->hasFlash('danger')): ?>
+                <div class="row justify-content-center" align="center">
+                    <div class="col-lg-12">
+                        <div class="alert bg-danger alert-dismissable">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <i class="icon fa fa-check"></i> <?= Yii::$app->session->getFlash('danger') ?>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
             <!-- Content -->
             <div class="row justify-content-center border border-secodnary border-top-0">
-                <div class="col-lg-9 col-sm-12 mt-5">
-                    <div class="card card-teal">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="card card-primary">
                         <div class="card-header">
                             <h1 class="card-title"><strong><i class="nav-icon fa fa-plus-circle"></i>&nbsp;&nbsp;&nbsp;Datos Fiscales</strong></h1>
                         </div>
-                        <?php $form = ActiveForm::begin(['action'=>['saveempresa'],'options'=>['enctype'=>'multipart/form-data','id'=>'datosFiscalesForm']]); ?>
+                        <?php 
+                            $form = ActiveForm::begin([
+                                'enableAjaxValidation' => false,
+                                'action'               =>['saveempresa'],
+                                'options'              =>[
+                                    'enctype' => 'multipart/form-data',
+                                    'id'      => 'datosFiscalesForm',
+                                    'class'   => 'ajax-form'
+                                ]
+                            ]);
+                        ?>
                         <div class="datosfiscales-form card-body">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <h3>Empresa</h3>
                                 </div>
+                                <?php echo $form->field($modelEmpresa, 'user_id')->hiddenInput(['value' => Yii::$app->session->get('user')["id"]])->label(false); ?>
                                 <?php echo $form->field($modelEmpresa, 'razon_social',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['placeholder' => 'Razón Social'])->label('Nombre o Razón Social *'); ?>
                                 <?php echo $form->field($modelEmpresa, 'nombre',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['placeholder' => 'Nombre Comercial'])->label('Nombre Comercial *'); ?>
                                 <?php echo $form->field($modelEmpresa, 'rfc',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['placeholder' => 'RFC'])->label('RFC *'); ?>
@@ -43,7 +75,7 @@ use yii\bootstrap5\ActiveForm;
                                 </div>
                                 <?php echo $form->field($modelEmpresa, 'regimen_fiscal',['options'=>['class'=>'col-12 col-md-3 mt-3']])->dropDownList(Yii::$app->params['regimen_fiscal'],['class'=>'form-control','prompt' => 'Seleccione una opción'])->label('Regimen Fiscal *');?>
                             </div>
-                            <div class=" card-footer" align="right">
+                            <div class="bg-white card-footer" align="right">
                                 <?php echo Html::submitButton('<i class="fas fa-check-circle"></i> Guardar', ['class' => 'btn btn-primary rounded-pill']) ?>
                             </div>
                         </div>

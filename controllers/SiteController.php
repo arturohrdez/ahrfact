@@ -69,30 +69,12 @@ class SiteController extends Controller {
 
     public function actionSaveempresa(){
         $modelEmpresa = new Empresa();
-        echo "<pre>";
-        var_dump($modelEmpresa);
-        echo "</pre>";
-        echo "<pre>";
-        var_dump(Yii::$app->request->post());
-        echo "</pre>";
 
         if($modelEmpresa->load(Yii::$app->request->post())){
-            if($modelEmpresa->validate()){
-
-            }else{
-                $errors = $modelEmpresa->errors;
-                // Haz algo con los errores, por ejemplo, imprímelos
-                print_r($errors);
+            if ($modelEmpresa->validate()) {
+                $modelEmpresa->save();
+                Yii::$app->session->setFlash('success', "Datos Fiscales guardados correctamente.");
             }//end if
-            die();
-            echo "<pre>";
-            var_dump($valid);
-            echo "</pre>";
-            $modelEmpresa->save();
-            echo "<pre>";
-            var_dump($modelEmpresa);
-            echo "</pre>";
-            die();
         }//end if
 
         return $this->redirect(['site/empresa']);
@@ -140,6 +122,11 @@ class SiteController extends Controller {
         $this->layout = "main-login";
         $model        = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            //Session USER
+            Yii::$app->session->set('user',[
+                "id"   => Yii::$app->user->id,
+            ]);
+
             return $this->goBack();
         } else {
             return $this->render('login', [
