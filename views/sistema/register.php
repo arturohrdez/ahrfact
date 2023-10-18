@@ -49,10 +49,9 @@ use yii\bootstrap5\ActiveForm;
 			</div>
 		</div>
 		<div class="row">
-			<?php echo $form->field($modelSignup, 'username',['options'=>['class'=>'col-12 col-md-4 mt-3']])->textInput(['placeholder'=>'Nombre de usuario'])->label('Nombre de usuario *'); ?>
-	        <?php echo $form->field($modelSignup, 'email',['options'=>['class'=>'col-12 col-md-4 mt-3']])->textInput(['placeholder'=>'Email'])->label('Email *'); ?>
+			<?php echo $form->field($modelSignup, 'username',['options'=>['class'=>'col-12 col-md-6 mt-3']])->textInput(['placeholder'=>'Nombre de usuario'])->label('Nombre de usuario *'); ?>
 	        <?php
-	        	echo $form->field($modelSignup, 'password',['options'=>['class'=>'col-12 col-md-4 mt-3']])->passwordInput(['placeholder'=>'Password'])->label('Password *')
+	        	echo $form->field($modelSignup, 'password',['options'=>['class'=>'col-12 col-md-6 mt-3']])->passwordInput(['placeholder'=>'Password'])->label('Password *')
 	        ?>
 		</div>
 		<div class="row mt-3">

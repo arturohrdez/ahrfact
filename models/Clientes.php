@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\User;
 
 /**
  * This is the model class for table "clientes".
@@ -38,7 +39,9 @@ class Clientes extends \yii\db\ActiveRecord
             [['apellidpPaterno', 'apellidoMaterno'], 'string', 'max' => 100],
             [['email'], 'email'],
             [['email'], 'string', 'max' => 255],
-            [['telefono'], 'string', 'max' => 10],
+            ['email', 'unique', 'targetClass' => User::class, 'message' => 'El correo electrónico ya se encuentra en uso.'],
+            ['telefono', 'number'],
+            [['telefono'], 'string', 'length' => 10],
         ];
     }
 

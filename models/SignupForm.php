@@ -15,6 +15,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $cliente_id;
 
     /**
      * @inheritdoc
@@ -30,7 +31,7 @@ class SignupForm extends Model
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => User::class, 'message' => 'El correo electrónico ya se encuentra en uso.'],
+            //['email', 'unique', 'targetClass' => User::class, 'message' => 'El correo electrónico ya se encuentra en uso.'],
 
             ['password', 'required'],
             ['password', 'string', 'min' => 8],
@@ -42,7 +43,7 @@ class SignupForm extends Model
      *
      * @return User|null the saved model or null if saving fails
      */
-    public function signup($cliente_id = null)
+    public function signup()
     {
         if ($this->validate()) {
             $user             = new User();
@@ -50,7 +51,7 @@ class SignupForm extends Model
             $user->email      = $this->email;
             $user->setPassword($this->password);
             $user->generateAuthKey();
-            $user->cliente_id = $cliente_id;
+            $user->cliente_id = $this->cliente_id;
             if ($user->save()) {
                 return ["success"=>true,"result"=>$user];
             }
