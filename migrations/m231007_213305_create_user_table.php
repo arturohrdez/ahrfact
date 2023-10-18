@@ -16,17 +16,35 @@ class m231007_213305_create_user_table extends Migration
         }
 
         $this->createTable('{{%user}}', [
-            'id' => $this->primaryKey(),
-            'username' => $this->string()->notNull()->unique(),
-            'auth_key' => $this->string(32)->notNull(),
-            'password_hash' => $this->string()->notNull(),
+            'id'                   => $this->primaryKey(),
+            'username'             => $this->string()->notNull()->unique(),
+            'auth_key'             => $this->string(32)->notNull(),
+            'password_hash'        => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
-            'email' => $this->string()->notNull()->unique(),
-
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
+            'email'                => $this->string()->notNull()->unique(),
+            'status'               => $this->smallInteger()->notNull()->defaultValue(10),
+            'created_at'           => $this->integer()->notNull(),
+            'updated_at'           => $this->integer()->notNull(),
+            'cliente_id'           => $this->integer()->notNull(),
         ], $tableOptions);
+
+
+         // creates index for column `user_id`
+        $this->createIndex(
+            '{{%idx-user-cliente_id}}',
+            '{{%user}}',
+            'cliente_id'
+        );
+
+        // add foreign key for table `{{%clientes}}`
+        $this->addForeignKey(
+            '{{%fk-user-cliente_id}}',
+            '{{%user}}',
+            'cliente_id',
+            '{{%clientes}}',
+            'id',
+            'CASCADE'
+        );
     }
 
     public function down()

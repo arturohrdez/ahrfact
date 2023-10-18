@@ -10,11 +10,10 @@ class m231008_214618_create_empresa_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeUp()
+    public function up()
     {
         $this->createTable('{{%empresa}}', [
             'id'             => $this->primaryKey(),
-            'user_id' => $this->integer()->notNull(),
             'razon_social'   => $this->string()->notNull(),
             'nombre'         => $this->string(),
             'rfc'            => $this->string(15)->notNull(), 
@@ -30,21 +29,22 @@ class m231008_214618_create_empresa_table extends Migration
             'pais'           => $this->string()->notNull(),
             'referencia'     => $this->string(),
             'regimen_fiscal' => $this->string()->notNull(),
+            'cliente_id'     => $this->integer()->notNull(),
         ]);
 
         // creates index for column `user_id`
         $this->createIndex(
-            '{{%idx-empresa-user_id}}',
+            '{{%idx-empresa-cliente_id}}',
             '{{%empresa}}',
-            'user_id'
+            'cliente_id'
         );
 
-        // add foreign key for table `{{%users}}`
+        // add foreign key for table `{{%clientes}}`
         $this->addForeignKey(
-            '{{%fk-empresa-user_id}}',
+            '{{%fk-empresa-cliente_id}}',
             '{{%empresa}}',
-            'user_id',
-            '{{%user}}',
+            'cliente_id',
+            '{{%clientes}}',
             'id',
             'CASCADE'
         );
@@ -53,18 +53,18 @@ class m231008_214618_create_empresa_table extends Migration
     /**
      * {@inheritdoc}
      */
-    public function safeDown()
+    public function down()
     {
         // drops foreign key for table `{{%rifas}}`
         $this->dropForeignKey(
-            '{{%fk-users-user_id}}',
-            '{{%user}}'
+            '{{%fk-empresa-cliente_id}}',
+            '{{%empresa}}'
         );
 
         // drops index for column `rifa_id`
         $this->dropIndex(
-            '{{%idx-users-user_id}}',
-            '{{%user}}'
+            '{{%idx-empresa-cliente_id}}',
+            '{{%empresa}}'
         );
 
         $this->dropTable('{{%empresa}}');
