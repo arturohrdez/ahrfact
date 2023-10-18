@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Clientes;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -59,6 +60,10 @@ class User extends ActiveRecord implements IdentityInterface {
      */
     public static function findIdentity($id) {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    public function getCliente(){
+        return $this->hasOne(Clientes::class, ['id' => 'cliente_id']);
     }
 
     /**

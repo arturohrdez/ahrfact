@@ -3,12 +3,12 @@
 namespace app\models;
 
 use Yii;
+use app\models\Clientes;
 
 /**
  * This is the model class for table "empresa".
  *
  * @property int $id
- * @property int $user_id
  * @property string $razon_social
  * @property string|null $nombre
  * @property string $rfc
@@ -24,8 +24,9 @@ use Yii;
  * @property string $pais
  * @property string|null $referencia
  * @property string $regimen_fiscal
+ * @property int $cliente_id
  *
- * @property User $user
+ * @property Clientes $cliente
  */
 class Empresa extends \yii\db\ActiveRecord
 {
@@ -43,14 +44,14 @@ class Empresa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'razon_social', 'rfc', 'calle', 'no_exterior', 'codigo_postal', 'colonia', 'localidad', 'municipio', 'estado', 'pais', 'regimen_fiscal'], 'required'],
-            [['user_id', 'no_exterior'], 'integer'],
+            [['razon_social', 'rfc', 'calle', 'no_exterior', 'codigo_postal', 'colonia', 'localidad', 'municipio', 'estado', 'pais', 'regimen_fiscal', 'cliente_id'], 'required'],
+            [['no_exterior', 'cliente_id'], 'integer'],
             [['razon_social', 'nombre', 'calle', 'colonia', 'localidad', 'municipio', 'estado', 'pais', 'referencia', 'regimen_fiscal'], 'string', 'max' => 255],
             [['rfc'], 'string', 'max' => 15],
             [['curp'], 'string', 'max' => 20],
             [['no_interior'], 'string', 'max' => 100],
             [['codigo_postal'], 'string', 'max' => 5],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::class, 'targetAttribute' => ['cliente_id' => 'id']],
         ];
     }
 
@@ -61,7 +62,6 @@ class Empresa extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
             'razon_social' => 'Razon Social',
             'nombre' => 'Nombre',
             'rfc' => 'Rfc',
@@ -77,16 +77,17 @@ class Empresa extends \yii\db\ActiveRecord
             'pais' => 'Pais',
             'referencia' => 'Referencia',
             'regimen_fiscal' => 'Regimen Fiscal',
+            'cliente_id' => 'Cliente ID',
         ];
     }
 
     /**
-     * Gets query for [[User]].
+     * Gets query for [[Cliente]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getCliente()
     {
-        return $this->hasOne(User::class, ['id' => 'user_id']);
+        return $this->hasOne(Clientes::class, ['id' => 'cliente_id']);
     }
 }

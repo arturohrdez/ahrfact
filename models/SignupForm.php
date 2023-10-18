@@ -2,9 +2,10 @@
 namespace app\models;
 
 
-use app\models\SignupForm;
-use yii\base\Model;
 use Yii;
+use app\models\SignupForm;
+use app\models\User;
+use yii\base\Model;
 
 /**
  * Signup form
@@ -23,16 +24,16 @@ class SignupForm extends Model
         return [
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => 'app\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => User::class, 'message' => 'El nombre de usuario ya ha sido utilizado.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => 'app\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => User::class, 'message' => 'El correo electrónico ya ha sido utilizado.'],
 
             ['password', 'required'],
-            ['password', 'string', 'min' => 6],
+            ['password', 'string', 'min' => 8],
         ];
     }
 
@@ -41,17 +42,20 @@ class SignupForm extends Model
      *
      * @return User|null the saved model or null if saving fails
      */
-    public function signup()
+    public function signup($cliente_id = null)
     {
         if ($this->validate()) {
-            $user = new User();
-            $user->username = $this->username;
-            $user->email = $this->email;
+            $user             = new User();
+            $user->username   = $this->username;
+            $user->email      = $this->email;
             $user->setPassword($this->password);
             $user->generateAuthKey();
+            $user->cliente_id = $cliente_id;
             if ($user->save()) {
-                return $user;
+                return ["success"=>true,"result"=>$user];
             }
+        }else{
+            return ["success"=>false,"result"=>$this->errors];
         }
 
         return null;
