@@ -51,8 +51,9 @@ class SistemaController extends Controller
 
 
     public function actionIndex(){
-        $this->layout = "main-register";
-        return $this->render('index');
+        /*$this->layout = "main-register";
+        return $this->render('index');*/
+        return $this->redirect('register');
     }
 
     public function actionRegister(){
@@ -73,9 +74,22 @@ class SistemaController extends Controller
                         if($modelCliente_delete){
                             $modelCliente_delete->delete();
                         }//end if
+                        return $this->render('register',["modelCliente"=>$modelCliente,"modelSignup"=>$modelSignup]);
                     }//end if
                     
-                    return $this->redirect('index');
+                    Yii::$app->session->setFlash('success', '<div class="text-center text-primary">
+                        <h4>¡Gracias por registrate en AHRFact!</h4>
+                        <br><br>
+                    </div>
+                    <div class="text-center text-dark">
+                        <i class="fas fa-envelope fa-lg text-primary"></i>
+                        <br>
+                        Te hemos enviado un correo de confirmación a '.$modelCliente->email.'
+                    </div>
+                    <br><br>
+                    <div class="text-center">
+                        Confirma tu correo para continuar. <br> En caso de no haberlo recibido, por favor revisa tu carpeta de Spam.
+                    </div>');
                 }//end if
             }//end if
         }//end if

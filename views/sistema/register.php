@@ -12,7 +12,22 @@ use yii\bootstrap5\ActiveForm;
 		<div class="login-box-msg text-center text-uppercase">
 			<h5>Registrate como nuevo cliente.</h5>
 		</div>
-		<?php $form = ActiveForm::begin(['id' => 'register-form']) ?>
+
+		<?php 
+		if(Yii::$app->session->hasFlash('success')){
+		?>
+			<div class="row">
+				<div class="col-12">
+					<?php echo Yii::$app->session->getFlash('success') ?>
+				</div>
+			</div>
+		<?php
+		}else{//end if
+		?>
+
+		<?php 
+		$form = ActiveForm::begin(['id' => 'register-form']) 
+		?>
 		<div class="row">
 			<div class="col-12">
 				<h5>Información General</h5>
@@ -39,9 +54,7 @@ use yii\bootstrap5\ActiveForm;
 	        <?php
 	        	echo $form->field($modelSignup, 'password',['options'=>['class'=>'col-12 col-md-4 mt-3']])->passwordInput(['placeholder'=>'Password'])->label('Password *')
 	        ?>
-
 		</div>
-
 		<div class="row mt-3">
 			<div class="col-12">
 				<div class="bg-white card-footer text-right">
@@ -50,8 +63,9 @@ use yii\bootstrap5\ActiveForm;
 	            </div>
         	</div>
 		</div>
-
-		<?php ActiveForm::end(); ?>
-
+		<?php 
+		ActiveForm::end(); 
+		}//end if
+		?>
 	</div>
 </div>

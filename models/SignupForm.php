@@ -24,13 +24,13 @@ class SignupForm extends Model
         return [
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => User::class, 'message' => 'El nombre de usuario ya ha sido utilizado.'],
+            ['username', 'unique', 'targetClass' => User::class, 'message' => 'El nombre de usuario ya se encuentra en uso.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'targetClass' => User::class, 'message' => 'El correo electrónico ya ha sido utilizado.'],
+            ['email', 'unique', 'targetClass' => User::class, 'message' => 'El correo electrónico ya se encuentra en uso.'],
 
             ['password', 'required'],
             ['password', 'string', 'min' => 8],
