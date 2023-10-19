@@ -118,16 +118,20 @@ class SiteController extends Controller {
     public function actionProfile(){
         $modelUser               = User::findOne(Yii::$app->user->identity->id);
         $modelProfile            = new ProfileForm();
+        $modelProfile->id        = $modelUser->id;
         $modelProfile->name      = $modelUser->name;
         $modelProfile->firstname = $modelUser->firstname;
         $modelProfile->lastname  = $modelUser->lastname;
         $modelProfile->email     = $modelUser->email;
         $readonly                = true;
+
         if($modelProfile->load(Yii::$app->request->post())){
-            echo "<pre>";
-            var_dump(Yii::$app->request->post());
-            echo "</pre>";
-            die();
+            $resProfile = $modelProfile->updateProfile();
+            if(!$resProfile["response"]){
+                return $this->render("profile",["modelProfile"=>$resProfile["model"],"readonly"=>$readonly]);
+            }//end if
+
+            return $this->render("profile",["modelProfile"=>$modelProfile,"readonly"=>$readonly]);
         }//end if
 
         return $this->render("profile",["modelProfile"=>$modelProfile,"readonly"=>$readonly]);
@@ -152,8 +156,8 @@ class SiteController extends Controller {
 
     public function actionLogout() {
         Yii::$app->user->logout();
-
-        return $this->goHome();
+        return $this->redirect(['site/login']);
+        //return $this->goHome();
     }
 
     public function actionSignup() {

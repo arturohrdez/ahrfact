@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\User;
 use yii\base\Model;
 
 /**
@@ -10,6 +11,7 @@ use yii\base\Model;
  */
 class ProfileForm extends Model
 {
+    public $id;
     public $email;
     public $name;
     public $firstname;
@@ -22,9 +24,10 @@ class ProfileForm extends Model
     {
         return [
             // name, email, subject and body are required
-            [['name', 'email', 'firstname', 'lastname'], 'required'],
+            [['id','name', 'email', 'firstname', 'lastname'], 'required'],
             // email has to be a valid email address
-            ['email', 'email']
+            ['email', 'email'],
+            ['email', 'unique', 'targetClass' => User::class, 'filter' => ['not', ['id' => $this->id]], 'message' => 'Este correo electrónico ya está en uso.']
         ];
     }
 
@@ -34,6 +37,7 @@ class ProfileForm extends Model
     public function attributeLabels()
     {
         return [
+            'id'        => "Id Profile",
             'email'     => 'Email',
             'name'      => 'Nombre(s)',
             'firstname' => 'Apellido Paterno',
@@ -41,24 +45,18 @@ class ProfileForm extends Model
         ];
     }
 
-    /**
-     * Sends an email to the specified email address using the information collected by this model.
-     * @param  string  $email the target email address
-     * @return boolean whether the model passes validation
-     */
-    /*public function contact($email)
-    {
+    public function updateProfile(){
+        $modelUser            = User::findOne($this->id);
         if ($this->validate()) {
-            Yii::$app->mailer->compose()
-                ->setTo($email)
-                ->setFrom([$this->email => $this->name])
-                ->setSubject($this->subject)
-                ->setTextBody($this->body)
-                ->send();
+            $modelUser->email     = $this->email;
+            $modelUser->name      = $this->name;
+            $modelUser->firstname = $this->firstname;
+            $modelUser->lastname  = $this->lastname;
+            $modelUser->save();
 
-            return true;
-        } else {
-            return false;
-        }
-    }*/
+            return ["response"=>true,"model"=>$this];
+        }else{
+            return ["response"=>false,"model"=>$this];
+        }//end if
+    }//end function
 }
