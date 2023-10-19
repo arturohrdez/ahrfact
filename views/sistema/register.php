@@ -47,10 +47,17 @@ use yii\bootstrap5\ActiveForm;
 			</div>
 		</div>
 		<div class="row">
-			<?php echo $form->field($modelSignup, 'username',['options'=>['class'=>'col-12 col-md-6 mt-3']])->textInput(['placeholder'=>'Nombre de usuario'])->label('Nombre de usuario *'); ?>
+			<?php echo $form->field($modelSignup, 'username',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['placeholder'=>'Nombre de usuario'])->label('Nombre de usuario *'); ?>
 	        <?php
-	        	echo $form->field($modelSignup, 'password',['options'=>['class'=>'col-12 col-md-6 mt-3']])->passwordInput(['placeholder'=>'Password'])->label('Password *')
+	        	echo $form->field($modelSignup, 'password',['options'=>['class'=>'col-12 col-md-4 mt-3']])->passwordInput(['placeholder'=>'Contraseña','class'=>'form-control mod-pass'])->label('Contraseña *')
 	        ?>
+	        <?php echo $form->field($modelSignup, 'passwordConfirm',['options'=>['class'=>'col-12 col-md-4 mt-3']])->passwordInput(['placeholder'=>'Confirmar Contraseña','class'=>'form-control mod-pass','maxlength' => true])->label('Confirmar Contraseña'); ?>
+	        <div class="col-12 col-md-1 mt-5 pt-1 text-center">
+	        	<a id="showPass" href="javascript:;" class="text-gray" title="Ver Contraseñas" data-status="0">
+	        		<i id="btn-mod-pass" class="fas fa-eye-slash"></i>
+	        	</a>
+	    	</div>
+
 		</div>
 		<div class="row mt-3">
 			<div class="col-12">
@@ -66,3 +73,22 @@ use yii\bootstrap5\ActiveForm;
 		?>
 	</div>
 </div>
+
+<?php
+$js = <<<JS
+	$("#showPass").on("click",function(e){
+		var status = $(this).data("status");
+		if(status == "0"){
+			$(this).data('status', '1');
+			$(".mod-pass").attr('type', 'text');
+			$("#btn-mod-pass").removeClass('fa-eye-slash').addClass('fa-eye');
+		}else if(status == "1"){
+			$(this).data('status', '0');
+			$(".mod-pass").attr('type', 'password');
+			$("#btn-mod-pass").removeClass('fa-eye').addClass('fa-eye-slash');
+		}//end if
+	});
+JS;
+
+$this->registerJs($js);
+?>

@@ -19,6 +19,7 @@ class SignupForm extends Model
     public $name;
     public $firstname;
     public $lastname;
+    public $passwordConfirm;
 
     /**
      * @inheritdoc
@@ -36,9 +37,47 @@ class SignupForm extends Model
             ['email', 'email'],
             //['email', 'unique', 'targetClass' => User::class, 'message' => 'El correo electrónico ya se encuentra en uso.'],
 
-            ['password', 'required'],
-            ['password', 'string', 'min' => 8],
+            [['password','passwordConfirm'], 'required'],
+            [['password'], 'validateStrongPassword'],
+            ['passwordConfirm', 'compare', 'compareAttribute' => 'password', 'message' => 'Las contraseñas no coinciden.'],
         ];
+    }
+
+     /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username'        => 'Nombre de usuario',
+            'email'           => 'Email',
+            'password'        => 'Contraseña',
+            'passwordConfirm' => 'Confirmar Contraseña'
+        ];
+    }
+
+    public function validateStrongPassword($attribute, $params)
+    {
+        $password = $this->$attribute;
+        // Verifica la longitud mínima
+        if (mb_strlen($password) < 8) {
+            $this->addError($attribute, 'La contraseña debe tener al menos 8 caracteres.');
+        }
+
+        // Verifica si contiene al menos una letra mayúscula
+        if (!preg_match('/[A-Z]/', $password)) {
+            $this->addError($attribute, 'La contraseña debe contener al menos una letra mayúscula.');
+        }
+
+        // Verifica si contiene al menos una letra minúscula
+        if (!preg_match('/[a-z]/', $password)) {
+            $this->addError($attribute, 'La contraseña debe contener al menos una letra minúscula.');
+        }
+
+        // Verifica si contiene al menos un número
+        if (!preg_match('/\d/', $password)) {
+            $this->addError($attribute, 'La contraseña debe contener al menos un número.');
+        }
     }
 
     /**

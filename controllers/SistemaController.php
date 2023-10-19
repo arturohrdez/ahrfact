@@ -80,7 +80,7 @@ class SistemaController extends Controller
                         if($modelCliente_delete){
                             $modelCliente_delete->delete();
                         }//end if
-                        $modelSignup->password = null;
+                        //$modelSignup->password = null;
                         return $this->render('register',["modelCliente"=>$modelCliente,"modelSignup"=>$modelSignup]);
                     }//end if
                     
