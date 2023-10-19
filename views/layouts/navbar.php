@@ -3,7 +3,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-dark bg-danger">
+<nav class="main-header navbar navbar-expand navbar-dark bg-primary">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
@@ -147,7 +147,7 @@ use yii\helpers\Url;
         </li> -->
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#" title="Mi Cuenta">
+            <a class="nav-link" data-toggle="dropdown" href="#"  title="Mi Cuenta">
                 <i class="fas fa-user-circle"></i>
                 <!-- <span class="badge badge-warning navbar-badge">15</span> -->
             </a>
@@ -156,7 +156,7 @@ use yii\helpers\Url;
                     <h4><?php echo Yii::$app->user->identity->name." ".Yii::$app->user->identity->firstname ?></h4>
                 </div>
                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item text-center">
+                <a href="<?php echo Url::to(['/site/profile']); ?>" class="dropdown-item text-center">
                     <i class="fas fa-user-circle mr-2"></i>Mi Cuenta
                     <!-- <span class="float-right text-muted text-sm">3 mins</span> -->
                 </a>

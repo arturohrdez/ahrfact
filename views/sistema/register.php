@@ -1,8 +1,6 @@
 <?php 
 use yii\helpers\Html;
 use yii\bootstrap5\ActiveForm;
-
-
 ?>
 <div class="card card-outline card-danger text-dark">
 	<div class="card-header text-center">

@@ -10,18 +10,19 @@ namespace app\controllers;
   use app\models\ContactForm; */
 
 use Yii;
-use app\models\LoginForm;
-use app\models\PasswordResetRequestForm;
-use app\models\ResetPasswordForm;
-use app\models\SignupForm;
 use app\models\ContactForm;
 use app\models\Empresa;
-
+use app\models\LoginForm;
+use app\models\PasswordResetRequestForm;
+use app\models\ProfileForm;
+use app\models\ResetPasswordForm;
+use app\models\SignupForm;
+use app\models\User;
 use yii\base\InvalidParamException;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 class SiteController extends Controller {
 
@@ -112,6 +113,24 @@ class SiteController extends Controller {
                 return $this->renderAjax('_datosfiscales');
                 break;
         }//end switch
+    }//end function
+
+    public function actionProfile(){
+        $modelUser               = User::findOne(Yii::$app->user->identity->id);
+        $modelProfile            = new ProfileForm();
+        $modelProfile->name      = $modelUser->name;
+        $modelProfile->firstname = $modelUser->firstname;
+        $modelProfile->lastname  = $modelUser->lastname;
+        $modelProfile->email     = $modelUser->email;
+        $readonly                = true;
+        if($modelProfile->load(Yii::$app->request->post())){
+            echo "<pre>";
+            var_dump(Yii::$app->request->post());
+            echo "</pre>";
+            die();
+        }//end if
+
+        return $this->render("profile",["modelProfile"=>$modelProfile,"readonly"=>$readonly]);
     }//end function
 
     public function actionLogin() {
