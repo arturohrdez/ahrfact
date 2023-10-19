@@ -36,7 +36,7 @@ class SiteController extends Controller {
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout','index','empresa','saveempresa'],
+                        'actions' => ['logout','index','empresa','saveempresa','profile'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -55,6 +55,7 @@ class SiteController extends Controller {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
+                'layout' => 'errorLayout'
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
@@ -137,7 +138,7 @@ class SiteController extends Controller {
     }
 
     public function actionSignup() {
-        $this->layout = "main-login";
+        /*$this->layout = "main-login";
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
@@ -149,7 +150,8 @@ class SiteController extends Controller {
 
         return $this->render('signup', [
                     'model' => $model,
-        ]);
+        ]);*/
+        $this->redirect(["sistema/register"]);
     }
 
     public function actionContact() {

@@ -1,12 +1,10 @@
 <?php
-
 /* @var $this yii\web\View */
 /* @var $name string */
 /* @var $message string */
 /* @var $exception Exception */
 
 use yii\helpers\Html;
-
 $this->title = $name;
 $this->params['breadcrumbs'] = [['label' => $this->title]];
 ?>
@@ -25,7 +23,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
             or try using the search form.
         </p>
 
-        <form class="search-form" style="margin-right: 190px;">
+        <!-- <form class="search-form" style="margin-right: 190px;">
             <div class="input-group">
                 <input type="text" name="search" class="form-control" placeholder="Search">
 
@@ -34,7 +32,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                     </button>
                 </div>
             </div>
-        </form>
+        </form> -->
     </div>
 </div>
 

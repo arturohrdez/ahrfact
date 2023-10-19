@@ -31,9 +31,9 @@ use yii\bootstrap5\ActiveForm;
             <div class="row justify-content-center border border-secodnary border-top-0">
                 <div class="col-lg-12 col-sm-12">
                     <div class="card card-primary">
-                        <div class="card-header">
+                        <!-- <div class="card-header">
                             <h1 class="card-title"><strong><i class="nav-icon fa fa-plus-circle"></i>&nbsp;&nbsp;&nbsp;Datos Fiscales</strong></h1>
-                        </div>
+                        </div> -->
                         <?php 
                             $form = ActiveForm::begin([
                                 'enableAjaxValidation' => false,

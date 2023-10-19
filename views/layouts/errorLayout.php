@@ -14,15 +14,15 @@ $this->registerCssFile('https://code.ionicframework.com/ionicons/2.0.1/css/ionic
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AHRFact | Registro</title>
+    <title>AHRFact | Log in</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
     <?php $this->head() ?>
 </head>
-<body class="hold-transition register-page bg-gradient">
+<body class="hold-transition login-page dark-mode bg-gradient">
 <?php  $this->beginBody() ?>
-<div class=" col-lg-6 mt-5">
+<div class="login-box">
     <?= $content ?>
 </div>
 <!-- /.login-box -->
