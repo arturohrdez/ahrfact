@@ -31,11 +31,11 @@ class SignupForm extends Model
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => User::class, 'message' => 'El nombre de usuario ya se encuentra en uso.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
+            ['username', 'validBlankSpace'],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            //['email', 'unique', 'targetClass' => User::class, 'message' => 'El correo electrónico ya se encuentra en uso.'],
 
             [['password','passwordConfirm'], 'required'],
             [['password'], 'validateStrongPassword'],
@@ -56,8 +56,17 @@ class SignupForm extends Model
         ];
     }
 
-    public function validateStrongPassword($attribute, $params)
-    {
+    public function validBlankSpace($attribute, $params){
+        if (strpos($this->$attribute, ' ') !== false) {
+            $this->addError($attribute, 'El nombre de usuario no debe contener espacios en blanco.');
+        }
+
+        if (preg_match('/[áéíóúÁÉÍÓÚ]/u', $this->$attribute)) {
+            $this->addError($attribute, 'El nombre de usuario no debe contener acentos.');
+        }
+    }
+
+    public function validateStrongPassword($attribute, $params){
         $password = $this->$attribute;
         // Verifica la longitud mínima
         if (mb_strlen($password) < 8) {
