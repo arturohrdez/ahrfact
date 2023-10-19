@@ -16,6 +16,9 @@ class SignupForm extends Model
     public $email;
     public $password;
     public $cliente_id;
+    public $name;
+    public $firstname;
+    public $lastname;
 
     /**
      * @inheritdoc
@@ -52,6 +55,9 @@ class SignupForm extends Model
             $user->setPassword($this->password);
             $user->generateAuthKey();
             $user->cliente_id = $this->cliente_id;
+            $user->name       = $this->name;
+            $user->firstname  = $this->firstname;
+            $user->lastname   = $this->lastname;
             if ($user->save()) {
                 return ["success"=>true,"result"=>$user];
             }

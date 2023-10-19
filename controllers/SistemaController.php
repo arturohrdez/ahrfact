@@ -69,6 +69,10 @@ class SistemaController extends Controller
                 if($modelSignup->load(Yii::$app->request->post())){
                     $modelSignup->email      = $modelCliente->email;
                     $modelSignup->cliente_id = $modelCliente->id;
+                    $modelSignup->name       = $modelCliente->nombre;
+                    $modelSignup->firstname  = $modelCliente->apellidpPaterno;
+                    $modelSignup->lastname   = $modelCliente->apellidoMaterno;
+                    
                     $saveSignUp              = $modelSignup->signup();
                     if(!$saveSignUp["success"]){
                         //Borra el cliente generado
