@@ -122,11 +122,6 @@ class SiteController extends Controller {
         $this->layout = "main-login";
         $model        = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            //Session USER
-            Yii::$app->session->set('user',[
-                "id"   => Yii::$app->user->id,
-            ]);
-
             return $this->goBack();
         } else {
             return $this->render('login', [

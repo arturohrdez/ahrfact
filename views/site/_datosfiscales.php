@@ -50,7 +50,7 @@ use yii\bootstrap5\ActiveForm;
                                 <div class="col-12">
                                     <h3>Empresa</h3>
                                 </div>
-                                <?php echo $form->field($modelEmpresa, 'user_id')->hiddenInput(['value' => Yii::$app->session->get('user')["id"]])->label(false); ?>
+                                <?php echo $form->field($modelEmpresa, 'cliente_id')->hiddenInput(['value' => Yii::$app->user->id])->label(false); ?>
                                 <?php echo $form->field($modelEmpresa, 'razon_social',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['placeholder' => 'Razón Social'])->label('Nombre o Razón Social *'); ?>
                                 <?php echo $form->field($modelEmpresa, 'nombre',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['placeholder' => 'Nombre Comercial'])->label('Nombre Comercial *'); ?>
                                 <?php echo $form->field($modelEmpresa, 'rfc',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['placeholder' => 'RFC'])->label('RFC *'); ?>

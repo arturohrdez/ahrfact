@@ -1,7 +1,6 @@
 <?php
-
 use yii\helpers\Html;
-
+use yii\helpers\Url;
 ?>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-dark bg-danger">
@@ -13,9 +12,9 @@ use yii\helpers\Html;
         <!-- <li class="nav-item d-none d-sm-inline-block">
             <a href="<?//=\yii\helpers\Url::home()?>" class="nav-link">Inicio</a>
         </li>-->
-        <li class="nav-item d-none d-sm-inline-block">
-            <?php echo Html::a('<i class="fas fa-cog"></i> <b>Configuración</b>', ['/site/empresa'], ['data-method' => '', 'class' => 'nav-link', 'title'=>'Configuración General']) ?>
-        </li>
+        <!-- <li class="nav-item d-none d-sm-inline-block">
+             <?php// echo Html::a('<i class="fas fa-cog"></i> <b>Configuración</b>', ['/site/empresa'], ['data-method' => '', 'class' => 'nav-link', 'title'=>'Configuración General']) ?>
+        </li> -->
         <!-- <li class="nav-item dropdown">
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
@@ -147,32 +146,34 @@ use yii\helpers\Html;
             </div>
         </li> -->
         <!-- Notifications Dropdown Menu -->
-        <!-- <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-bell"></i>
-                <span class="badge badge-warning navbar-badge">15</span>
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#" title="Mi Cuenta">
+                <i class="fas fa-user-circle"></i>
+                <!-- <span class="badge badge-warning navbar-badge">15</span> -->
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span class="dropdown-header">15 Notifications</span>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-envelope mr-2"></i> 4 new messages
-                    <span class="float-right text-muted text-sm">3 mins</span>
+                <div class="dropdown-item text-dark text-center">
+                    <h4><?php echo Yii::$app->user->identity->name." ".Yii::$app->user->identity->firstname ?></h4>
+                </div>
+               <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item text-center">
+                    <i class="fas fa-user-circle mr-2"></i>Mi Cuenta
+                    <!-- <span class="float-right text-muted text-sm">3 mins</span> -->
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-users mr-2"></i> 8 friend requests
-                    <span class="float-right text-muted text-sm">12 hours</span>
+                <a href="<?php echo Url::to(['/site/empresa']); ?>" class="dropdown-item text-center">
+                    <i class="fas fa-cog mr-2"></i>Configuración
+                    <!-- <span class="float-right text-muted text-sm">12 hours</span> -->
                 </a>
-                <div class="dropdown-divider"></div>
+                <!--<div class="dropdown-divider"></div>
                 <a href="#" class="dropdown-item">
                     <i class="fas fa-file mr-2"></i> 3 new reports
                     <span class="float-right text-muted text-sm">2 days</span>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> -->
             </div>
-        </li> -->
+        </li>
         
         <li class="nav-item">
             <?= Html::a('<i class="fas fa-sign-out-alt"></i>', ['/site/logout'], ['data-method' => 'post', 'class' => 'nav-link', 'title'=>'Salir']) ?>

@@ -17,9 +17,11 @@ use yii\helpers\Url;
                 <img src="<?=$assetDir?>/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Alexander Pierce</a>
+                <a href="#" class="d-block"><?php //echo Yii::$app->user->identity->name." ".Yii::$app->user->identity->firstname ?></a>
             </div>
         </div> -->
+
+
 
         <!-- SidebarSearch Form -->
         <!-- href be escaped -->
