@@ -109,9 +109,11 @@ class SiteController extends Controller {
         if($modelProfile->load(Yii::$app->request->post())){
             $resProfile = $modelProfile->updateProfile();
             if(!$resProfile["response"]){
+                Yii::$app->session->setFlash('danger', "Hubo algun error y no se puedo actualizar tu información.");
                 return $this->renderAjax("_datospersonales",["modelProfile"=>$resProfile["model"],"readonly"=>$readonly]);
             }//end if
 
+            Yii::$app->session->setFlash('success', "Tu información se actualizo correctamente.");
             return $this->renderAjax("_datospersonales",["modelProfile"=>$modelProfile,"readonly"=>$readonly]);
         }//end if
 

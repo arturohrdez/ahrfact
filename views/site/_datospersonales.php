@@ -14,6 +14,28 @@ use yii\bootstrap5\ActiveForm;
 		<?php 
 		$form = ActiveForm::begin(['id' => 'profile-form','enableAjaxValidation' => false]);
 		?>
+		<?php if (Yii::$app->session->hasFlash('success')): ?>
+            <div class="row justify-content-center" align="center">
+                <div class="col-lg-12">
+                    <div class="alert bg-teal alert-dismissable">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <i class="icon fa fa-check"></i> <?= Yii::$app->session->getFlash('success') ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <?php if (Yii::$app->session->hasFlash('danger')): ?>
+            <div class="row justify-content-center" align="center">
+                <div class="col-lg-12">
+                    <div class="alert bg-danger alert-dismissable">
+                        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                        <i class="icon fa fa-check"></i> <?= Yii::$app->session->getFlash('danger') ?>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+        
 		<div class="row">
 			<div class="col-12">
 				<h5>Datos Personales</h5>
@@ -33,6 +55,7 @@ use yii\bootstrap5\ActiveForm;
 	                	echo Html::button('<i class="fas fa-user-edit"></i> Editar Información', ['id'=>'btnEditProfile','class' => 'btn btn-outline-info rounded-pill']);
 	                	echo Html::button('<i class="fas fa-times"></i> Cancelar', ['id'=>'btnCencelProfile','class' => 'btn btn-danger rounded-pill','style'=>'display:none;']);
 	                	echo Html::submitButton('<i class="fas fa-check-circle"></i> Guardar', ['id'=>"btnSaveProfile",'class' => 'btn btn-primary rounded-pill ml-3','style'=>'display:none;']);
+
 	                ?>
 	            </div>
         	</div>
@@ -44,7 +67,32 @@ use yii\bootstrap5\ActiveForm;
 </div>
 
 <?php
+$URL_Datospersonales = Url::to(['site/datospersonales']);
 $js = <<<JS
+	$(document).ready(function(){
+		$("#profile-form").on('beforeSubmit',function(e){
+			e.preventDefault(); 
+			var form     = $(this);
+			var formData = form.serialize();
+
+			$.ajax({
+	            url: '{$URL_Datospersonales}', // Reemplaza con la URL adecuada
+	            type: 'post',
+	            data: formData,
+	            success: function(response) {
+	                // Actualizar la sección de la página con la respuesta
+	            	$('#profContent').html(response);
+	            },
+	            error: function(erro) {
+	                // Manejar errores de Ajax
+	                console.log(erro);
+	            }
+	        });
+
+			return false;
+		});
+	});
+
 	$("#btnEditProfile").on("click",function(e){
 		$(this).hide();
 		$(".readonly_mod").attr("readonly",false);
