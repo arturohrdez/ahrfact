@@ -1,67 +1,86 @@
 <?php
 use yii\helpers\Html;
-use yii\bootstrap5\ActiveForm;
+use yii\helpers\Url;
+//use yii\bootstrap5\ActiveForm;
 
 $this->title = 'Mi Cuenta';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<div class="card card-outline card-primary text-dark ">
-	<div class="card-header">
-		<div class="card-title"><h4>Ajustes Generales</h4></div>
-	</div>
-	<div class="card-body">
-		<p class="card-text text-gray">
-			Edita tu infirmación general, y/o cambia tu contraseña en caso de ser necesario.
-		</p>
-		<?php 
-		$form = ActiveForm::begin(['id' => 'profile-form']) 
-		?>
-		<div class="row">
-			<div class="col-12">
-				<h5>Datos Personales</h5>
-			</div>
-		</div>
-		<div class="row">
-			<?php echo $form->field($modelProfile, 'id')->hiddenInput()->label(false); ?>
-			<?php echo $form->field($modelProfile, 'name',['options'=>['class'=>'col-12 col-md-4 mt-3']])->textInput(['readonly'=>$readonly,'placeholder' => 'Nombre(s)','class'=>'form-control readonly_mod'])->label('Nombre(s) *'); ?>
-			<?php echo $form->field($modelProfile, 'firstname',['options'=>['class'=>'col-12 col-md-4 mt-3']])->textInput(['readonly'=>$readonly,'placeholder' => 'Apellido Paterno','class'=>'form-control readonly_mod'])->label('Apellido Paterno *'); ?>
-			<?php echo $form->field($modelProfile, 'lastname',['options'=>['class'=>'col-12 col-md-4 mt-3']])->textInput(['readonly'=>$readonly,'placeholder' => 'Apellido Materno','class'=>'form-control readonly_mod'])->label('Apellido Materno *'); ?>
-			<?php echo $form->field($modelProfile, 'email',['options'=>['class'=>'col-12 col-md-4 mt-3']])->textInput(['readonly'=>$readonly,'placeholder' => 'Email','class'=>'form-control readonly_mod'])->label('Email *'); ?>
-		</div>
-		<div class="row mt-3">
-			<div class="col-12">
-				<div class="bg-white card-footer text-right">
-	                <?php 
-	                	echo Html::button('<i class="fas fa-user-edit"></i> Editar Información', ['id'=>'btnEditProfile','class' => 'btn btn-outline-info rounded-pill']);
-	                	echo Html::button('<i class="fas fa-times"></i> Cancelar', ['id'=>'btnCencelProfile','class' => 'btn btn-danger rounded-pill','style'=>'display:none;']);
-	                	echo Html::submitButton('<i class="fas fa-check-circle"></i> Guardar', ['id'=>"btnSaveProfile",'class' => 'btn btn-primary rounded-pill ml-3','style'=>'display:none;']);
-	                ?>
-	            </div>
-        	</div>
-		</div>
-		<?php 
-		ActiveForm::end(); 
-		?>
-
+<div class="row">
+	<div class="col-12">
+		<ul class="nav nav-tabs nav-fill navbar-light">
+			<li class="nav-item">
+				<a id="profTab1" data-toggle="tab" data-id="1"  class="tabconf nav-link active" aria-current="page" href="javascript:void(0);">Datos Personales</a>
+			</li>
+			<li class="nav-item">
+				<a data-toggle="tab" data-id="2"  class="tabconf nav-link" href="javascript:void(0);">Datos de Acceso</a>
+			</li>
+			<li class="nav-item">
+				<a data-toggle="tab" data-id="3"  class="tabconf nav-link" href="javascript:void(0);">Nueve Empresa</a>
+			</li>
+			<li class="nav-item">
+				<a data-toggle="tab" data-id="4"  class="tabconf nav-link" href="javascript:void(0);">Usuarios Adicionales</a>
+			</li>
+			<!-- <li class="nav-item">
+				<a data-toggle="tab" data-id=3 class="tabconf nav-link" href="javascript:void(0);">Certificados</a>
+			</li>
+			<li class="nav-item">
+				<a data-toggle="tab" data-id=4  class="tabconf nav-link" href="javascript:void(0);">Admin SAT</a>
+			</li>
+			<li class="nav-item">
+				<a data-toggle="tab" data-id="5"  class="tabconf nav-link" href="javascript:void(0);">Preferencias</a>
+			</li> -->
+			<!-- <li class="nav-item">
+				<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+			</li> -->
+		</ul>
 	</div>
 </div>
 
+<div id="profContent"></div>
+
 <?php
-$js = <<<JS
-	$("#btnEditProfile").on("click",function(e){
-		$(this).hide();
-		$(".readonly_mod").attr("readonly",false);
-		$("#btnSaveProfile, #btnCencelProfile").show();
-	});
+$URL_Datospersonales = Url::to(['site/datospersonales']);
+$URL_Datosacceso     = Url::to(['site/datosacceso']);
+$script = <<< JS
+$(function(e){
+	$("#profTab1").trigger('click');
+});
 
-	$("#btnCencelProfile").on("click",function(e){
-		location.reload();
-		/*$(".readonly_mod").attr("readonly",true);
-		$("#btnSaveProfile, #btnCencelProfile").hide();
-		$("#btnEditProfile").show();*/
+$(".tabconf").on("click",function(e){
+	var id = $(this).data("id");
+	var uri_render =  "";
+	switch (id) {
+		case 1:
+			// code...
+			uri_render = "{$URL_Datospersonales}";
+			break;
+		case 2:
+			// code...
+			uri_render = "{$URL_Datosacceso}";
+			break;
+		default:
+			// code...
+			uri_render = "{$URL_Datospersonales}";
+			break;
+	}
+
+
+	$.ajax({
+		url     : uri_render,
+		type    : 'GET',
+		dataType: 'HTML',
+		data    : {"id":id},
+		beforeSend: function(data){
+			$("#profContent").html('<div class="row"><div class="col-12 bg-white p-5"><div class="row justify-content-center border border-secodnary border-top-0"><div class="spinner-border text-teal" role="status"></div></div></div></div>');
+		},
+		success: function(response) {
+			$("#profContent").html(response);
+			//console.log(response);
+		}
 	});
+});
 JS;
+$this->registerJs($script);
 
-$this->registerJs($js);
-?>

@@ -2,11 +2,11 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
-<aside class="main-sidebar sidebar-dark-red elevation-4">
+<aside class="main-sidebar sidebar-dark-red elevation-4 text-center">
     <!-- Brand Logo -->
-    <a href="/" class="brand-link navbar-primary logo-switch">
+    <a href="/" class="brand-link navbar-primary logo-switch text-white">
         <!-- <img src="<?=$assetDir?>/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
-        <span class="brand-text text-center">AHRFact</span>
+        <span class="brand-text"><b>AHR</b>Fact</span>
     </a>
 
     <!-- Sidebar -->

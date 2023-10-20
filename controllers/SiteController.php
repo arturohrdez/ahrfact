@@ -37,7 +37,7 @@ class SiteController extends Controller {
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout','index','empresa','saveempresa','profile'],
+                        'actions' => ['logout','index','empresa','saveempresa','profile','datospersonales','datosacceso'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -69,17 +69,57 @@ class SiteController extends Controller {
         return $this->render('index');
     }
 
-    public function actionSaveempresa(){
-        $modelEmpresa = new Empresa();
+    public function actionLogin() {
+        if (!\Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+        
+        //Layout Login
+        $this->layout = "main-login";
+        $model        = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            return $this->goBack();
+        } else {
+            return $this->render('login', [
+                        'model' => $model,
+            ]);
+        }
+    }//end function
 
-        if($modelEmpresa->load(Yii::$app->request->post())){
-            if ($modelEmpresa->validate()) {
-                $modelEmpresa->save();
-                Yii::$app->session->setFlash('success', "Datos Fiscales guardados correctamente.");
+    public function actionLogout() {
+        Yii::$app->user->logout();
+        return $this->redirect(['site/login']);
+        //return $this->goHome();
+    }//end function
+
+    public function actionProfile(){
+        return $this->render("profile");
+    }//end function
+
+    public function actionDatospersonales(){
+        $modelUser               = User::findOne(Yii::$app->user->identity->id);
+        $modelProfile            = new ProfileForm();
+        $modelProfile->id        = $modelUser->id;
+        $modelProfile->name      = $modelUser->name;
+        $modelProfile->firstname = $modelUser->firstname;
+        $modelProfile->lastname  = $modelUser->lastname;
+        $modelProfile->email     = $modelUser->email;
+        $readonly                = true;
+
+        if($modelProfile->load(Yii::$app->request->post())){
+            $resProfile = $modelProfile->updateProfile();
+            if(!$resProfile["response"]){
+                return $this->renderAjax("_datospersonales",["modelProfile"=>$resProfile["model"],"readonly"=>$readonly]);
             }//end if
+
+            return $this->renderAjax("_datospersonales",["modelProfile"=>$modelProfile,"readonly"=>$readonly]);
         }//end if
 
-        return $this->redirect(['site/empresa']);
+        return $this->renderAjax("_datospersonales",["modelProfile"=>$modelProfile,"readonly"=>$readonly]);
+    }//end function
+
+    public function actionDatosacceso(){
+        return "entra";
     }//end function
 
     public function actionEmpresa(){
@@ -115,50 +155,18 @@ class SiteController extends Controller {
         }//end switch
     }//end function
 
-    public function actionProfile(){
-        $modelUser               = User::findOne(Yii::$app->user->identity->id);
-        $modelProfile            = new ProfileForm();
-        $modelProfile->id        = $modelUser->id;
-        $modelProfile->name      = $modelUser->name;
-        $modelProfile->firstname = $modelUser->firstname;
-        $modelProfile->lastname  = $modelUser->lastname;
-        $modelProfile->email     = $modelUser->email;
-        $readonly                = true;
+    public function actionSaveempresa(){
+        $modelEmpresa = new Empresa();
 
-        if($modelProfile->load(Yii::$app->request->post())){
-            $resProfile = $modelProfile->updateProfile();
-            if(!$resProfile["response"]){
-                return $this->render("profile",["modelProfile"=>$resProfile["model"],"readonly"=>$readonly]);
+        if($modelEmpresa->load(Yii::$app->request->post())){
+            if ($modelEmpresa->validate()) {
+                $modelEmpresa->save();
+                Yii::$app->session->setFlash('success', "Datos Fiscales guardados correctamente.");
             }//end if
-
-            return $this->render("profile",["modelProfile"=>$modelProfile,"readonly"=>$readonly]);
         }//end if
 
-        return $this->render("profile",["modelProfile"=>$modelProfile,"readonly"=>$readonly]);
+        return $this->redirect(['site/empresa']);
     }//end function
-
-    public function actionLogin() {
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-        
-        //Layout Login
-        $this->layout = "main-login";
-        $model        = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                        'model' => $model,
-            ]);
-        }
-    }
-
-    public function actionLogout() {
-        Yii::$app->user->logout();
-        return $this->redirect(['site/login']);
-        //return $this->goHome();
-    }
 
     public function actionSignup() {
         /*$this->layout = "main-login";
@@ -177,7 +185,7 @@ class SiteController extends Controller {
         $this->redirect(["sistema/register"]);
     }
 
-    public function actionContact() {
+    /*public function actionContact() {
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
             Yii::$app->session->setFlash('contactFormSubmitted');
@@ -188,13 +196,13 @@ class SiteController extends Controller {
                         'model' => $model,
             ]);
         }
-    }
+    }*/
 
-    public function actionAbout() {
+    /*public function actionAbout() {
         return $this->render('about');
-    }
+    }*/
 
-    public function actionRequestPasswordReset() {
+    /*public function actionRequestPasswordReset() {
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
@@ -211,7 +219,7 @@ class SiteController extends Controller {
         ]);
     }
 
-    public function actionResetPassword($token) {
+    public function actionResetpassword($token) {
         try {
             $model = new ResetPasswordForm($token);
         } catch (InvalidParamException $e) {
@@ -227,6 +235,6 @@ class SiteController extends Controller {
         return $this->render('resetPassword', [
                     'model' => $model,
         ]);
-    }
+    }*/
 
 }
