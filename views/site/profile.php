@@ -69,7 +69,7 @@ $(".tabconf").on("click",function(e){
 
 	$.ajax({
 		url     : uri_render,
-		type    : 'GET',
+		type    : 'POST',
 		dataType: 'HTML',
 		data    : {"id":id},
 		beforeSend: function(data){

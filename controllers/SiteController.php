@@ -15,6 +15,7 @@ use app\models\Empresa;
 use app\models\LoginForm;
 use app\models\PasswordResetRequestForm;
 use app\models\ProfileForm;
+use app\models\ProfileResetPassword;
 use app\models\ResetPasswordForm;
 use app\models\SignupForm;
 use app\models\User;
@@ -109,7 +110,7 @@ class SiteController extends Controller {
         if($modelProfile->load(Yii::$app->request->post())){
             $resProfile = $modelProfile->updateProfile();
             if(!$resProfile["response"]){
-                Yii::$app->session->setFlash('danger', "Hubo algun error y no se puedo actualizar tu información.");
+                Yii::$app->session->setFlash('danger', "Hubo algun error y no se pudo actualizar tu información.");
                 return $this->renderAjax("_datospersonales",["modelProfile"=>$resProfile["model"],"readonly"=>$readonly]);
             }//end if
 
@@ -121,7 +122,11 @@ class SiteController extends Controller {
     }//end function
 
     public function actionDatosacceso(){
-        return "entra";
+        $modelUser                           = User::findOne(Yii::$app->user->identity->id);
+        $modelProfileResetPassword           = new ProfileResetPassword();
+        $modelProfileResetPassword->username = $modelUser->username;
+
+        return $this->renderAjax("_datosdeacceso",["modelResetPass"=>$modelProfileResetPassword,"modelUser"=>$modelUser]);
     }//end function
 
     public function actionEmpresa(){

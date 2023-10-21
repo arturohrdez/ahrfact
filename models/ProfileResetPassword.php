@@ -11,6 +11,8 @@ use yii\base\Model;
  */
 class ProfileResetPassword extends Model
 {
+    
+    public $username;
     public $password;
     public $newPassword;
     public $confirmPassword;
@@ -21,7 +23,7 @@ class ProfileResetPassword extends Model
     public function rules()
     {
         return [
-            [['password', 'newPassword', 'confirmPassword'], 'required'],
+            [['username','password', 'newPassword', 'confirmPassword'], 'required'],
             ['password', 'validatePassword'], // Valida la contraseña actual
             ['confirmPassword', 'compare', 'compareAttribute' => 'newPassword', 'message' => 'Las contraseñas no coinciden.'],
         ];
@@ -33,6 +35,7 @@ class ProfileResetPassword extends Model
     public function attributeLabels()
     {
         return [
+            'username'        => 'Nombre de usuario',
             'password'        => "Contraseña",
             'newPassword'     => 'Nueva Contraseña',
             'confirmPassword' => 'Confirmar Nueva Contraseña'

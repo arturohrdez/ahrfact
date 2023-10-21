@@ -79,6 +79,9 @@ $js = <<<JS
 	            url: '{$URL_Datospersonales}', // Reemplaza con la URL adecuada
 	            type: 'post',
 	            data: formData,
+	            beforeSend: function(){
+	            	$("#profContent").html('<div class="row"><div class="col-12 bg-white p-5"><div class="row justify-content-center border border-secodnary border-top-0"><div class="spinner-border text-teal" role="status"></div></div></div></div>');
+	            },
 	            success: function(response) {
 	                // Actualizar la sección de la página con la respuesta
 	            	$('#profContent').html(response);
@@ -101,9 +104,6 @@ $js = <<<JS
 
 	$("#btnCencelProfile").on("click",function(e){
 		location.reload();
-		/*$(".readonly_mod").attr("readonly",true);
-		$("#btnSaveProfile, #btnCencelProfile").hide();
-		$("#btnEditProfile").show();*/
 	});
 JS;
 
