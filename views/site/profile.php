@@ -9,36 +9,31 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
 	<div class="col-12">
-		<ul class="nav nav-tabs nav-fill navbar-light">
-			<li class="nav-item">
-				<a id="profTab1" data-toggle="tab" data-id="1"  class="tabconf nav-link active" aria-current="page" href="javascript:void(0);">Datos Personales</a>
-			</li>
-			<li class="nav-item">
-				<a data-toggle="tab" data-id="2"  class="tabconf nav-link" href="javascript:void(0);">Datos de Acceso</a>
-			</li>
-			<li class="nav-item">
-				<a data-toggle="tab" data-id="3"  class="tabconf nav-link" href="javascript:void(0);">Nueve Empresa</a>
-			</li>
-			<li class="nav-item">
-				<a data-toggle="tab" data-id="4"  class="tabconf nav-link" href="javascript:void(0);">Usuarios Adicionales</a>
-			</li>
-			<!-- <li class="nav-item">
-				<a data-toggle="tab" data-id=3 class="tabconf nav-link" href="javascript:void(0);">Certificados</a>
-			</li>
-			<li class="nav-item">
-				<a data-toggle="tab" data-id=4  class="tabconf nav-link" href="javascript:void(0);">Admin SAT</a>
-			</li>
-			<li class="nav-item">
-				<a data-toggle="tab" data-id="5"  class="tabconf nav-link" href="javascript:void(0);">Preferencias</a>
-			</li> -->
-			<!-- <li class="nav-item">
-				<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-			</li> -->
-		</ul>
+		<div class="card card-dark card-tabs">
+			<div class="card-header p-0 pt-1">
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item">
+						<a id="profTab1" data-toggle="tab" data-id="1"  class="tabconf nav-link active" aria-current="page" href="javascript:void(0);">Datos Personales</a>
+					</li>
+					<li class="nav-item">
+						<a data-toggle="tab" data-id="2"  class="tabconf nav-link" href="javascript:void(0);">Datos de Acceso</a>
+					</li>
+					<li class="nav-item">
+						<a data-toggle="tab" data-id="3"  class="tabconf nav-link" href="javascript:void(0);">Nueve Empresa</a>
+					</li>
+					<li class="nav-item">
+						<a data-toggle="tab" data-id="4"  class="tabconf nav-link" href="javascript:void(0);">Usuarios Adicionales</a>
+					</li>
+				</ul>
+			</div>
+			<div class="card-body">
+				<div id="profContent" class="tab-content">
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
-<div id="profContent"></div>
 
 <?php
 $URL_Datospersonales = Url::to(['site/datospersonales']);

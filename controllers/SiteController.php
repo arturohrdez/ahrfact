@@ -124,8 +124,16 @@ class SiteController extends Controller {
     public function actionDatosacceso(){
         $modelUser                           = User::findOne(Yii::$app->user->identity->id);
         $modelProfileResetPassword           = new ProfileResetPassword();
-        $modelProfileResetPassword->username = $modelUser->username;
+        $modelProfileResetPassword->id       = $modelUser->id;
 
+        if($modelProfileResetPassword->load(Yii::$app->request->post()) && $modelProfileResetPassword->validate()){
+            $modelProfileResetPassword->updateProfile();
+            $modelProfileResetPassword = new ProfileResetPassword();    
+            Yii::$app->session->setFlash('success', "Tu información se actualizo correctamente.");
+            return $this->renderAjax("_datosdeacceso",["modelResetPass"=>$modelProfileResetPassword,"modelUser"=>$modelUser]);
+        }//end if
+
+        $modelProfileResetPassword->password = null;
         return $this->renderAjax("_datosdeacceso",["modelResetPass"=>$modelProfileResetPassword,"modelUser"=>$modelUser]);
     }//end function
 
