@@ -2,9 +2,9 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
-<aside class="main-sidebar sidebar-dark-red elevation-4 text-center">
+<aside class="main-sidebar sidebar-dark-lightblue elevation-4">
     <!-- Brand Logo -->
-    <a href="/" class="brand-link navbar-primary logo-switch text-white">
+    <a href="/" class="brand-link navbar-lightblue logo-switch text-white text-center">
         <!-- <img src="<?=$assetDir?>/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
         <span class="brand-text"><b>AHR</b>Fact</span>
     </a>
@@ -40,7 +40,10 @@ use yii\helpers\Url;
         <nav class="mt-2">
             <?php
             $items   = [];
-            $items[] = ['label' => 'Inicio', 'icon' => 'fas fa-home', 'url' => [Url::to('/site/index')], 'target' => ''];
+            $items[] = ['label' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt', 'url' => [Url::to('/site/index')], 'target' => ''];
+            $items[] = ['label' => 'CATÁLOGOS', 'header' => true];
+            $items[] = ['label' => 'Clientes', 'icon' => 'fas fa-address-book', 'url' => [Url::to('/site/customers')], 'target' => ''];
+            $items[] = ['label' => 'Productos', 'icon' => 'fas fa-tag', 'url' => [Url::to('/site/products')], 'target' => ''];
             /*$items[] = ['label' => 'Configuración', 'icon' => 'fas fa-cog', 'url' => [Url::to('/site/empresa')], 'target' => ''];*/
             /*$items[] = ['label' => 'Rifas', 'icon' => 'fa fa-bolt', 'url' => [Url::to('/rifas/index')], 'target' => ''];
             $items[] = ['label' => 'Boletos Activos', 'icon' => 'fas fa-ticket-alt', 'url' => [Url::to('/tickets/index')], 'target' => ''];
