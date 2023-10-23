@@ -13,16 +13,24 @@ $this->params['breadcrumbs'][] = $this->title;
 			<div class="card-header p-0 pt-1">
 				<ul class="nav nav-tabs" role="tablist">
 					<li class="nav-item">
-						<a id="profTab1" data-toggle="tab" data-id="1"  class="tabconf nav-link active" aria-current="page" href="javascript:void(0);">Datos Personales</a>
+						<a id="profTab1" data-toggle="tab" data-id="1"  class="tabconf nav-link active" aria-current="page" href="javascript:void(0);">
+							<i class="fas fa-user-edit"></i> Datos Personales
+						</a>
 					</li>
 					<li class="nav-item">
-						<a data-toggle="tab" data-id="2"  class="tabconf nav-link" href="javascript:void(0);">Datos de Acceso</a>
+						<a data-toggle="tab" data-id="2"  class="tabconf nav-link" href="javascript:void(0);">
+							<i class="fas fa-user-cog"></i> Datos de Acceso
+						</a>
 					</li>
 					<li class="nav-item">
-						<a data-toggle="tab" data-id="3"  class="tabconf nav-link" href="javascript:void(0);">Nueve Empresa</a>
+						<a data-toggle="tab" data-id="3"  class="tabconf nav-link" href="javascript:void(0);">
+							<i class="fas fa-building"></i> Nueve Empresa
+						</a>
 					</li>
 					<li class="nav-item">
-						<a data-toggle="tab" data-id="4"  class="tabconf nav-link" href="javascript:void(0);">Usuarios Adicionales</a>
+						<a data-toggle="tab" data-id="4"  class="tabconf nav-link" href="javascript:void(0);">
+							<i class="fas fa-user-plus"></i> Usuarios Adicionales
+						</a>
 					</li>
 				</ul>
 			</div>
