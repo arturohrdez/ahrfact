@@ -42,8 +42,8 @@ use yii\helpers\Url;
             $items   = [];
             $items[] = ['label' => 'Dashboard', 'icon' => 'fas fa-tachometer-alt', 'url' => [Url::to('/site/index')], 'target' => ''];
             $items[] = ['label' => 'CATÁLOGOS', 'header' => true];
-            $items[] = ['label' => 'Clientes', 'icon' => 'fas fa-address-book', 'url' => [Url::to('/site/customers')], 'target' => ''];
-            $items[] = ['label' => 'Productos', 'icon' => 'fas fa-tag', 'url' => [Url::to('/site/products')], 'target' => ''];
+            $items[] = ['label' => 'Clientes', 'icon' => 'fas fa-address-book', 'url' => [Url::to('/customer/index')], 'target' => ''];
+            $items[] = ['label' => 'Productos', 'icon' => 'fas fa-tag', 'url' => [Url::to('/products/index')], 'target' => ''];
             /*$items[] = ['label' => 'Configuración', 'icon' => 'fas fa-cog', 'url' => [Url::to('/site/empresa')], 'target' => ''];*/
             /*$items[] = ['label' => 'Rifas', 'icon' => 'fa fa-bolt', 'url' => [Url::to('/rifas/index')], 'target' => ''];
             $items[] = ['label' => 'Boletos Activos', 'icon' => 'fas fa-ticket-alt', 'url' => [Url::to('/tickets/index')], 'target' => ''];
