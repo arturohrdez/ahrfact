@@ -38,7 +38,7 @@ class SiteController extends Controller {
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout','index','empresa','saveempresa','profile','datospersonales','datosacceso'],
+                        'actions' => ['logout','index','empresa','datosfiscales','profile','datospersonales','datosacceso'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -138,49 +138,30 @@ class SiteController extends Controller {
     }//end function
 
     public function actionEmpresa(){
-        $tabId = Yii::$app->request->get("id",null);
-
-        if(is_null($tabId)){
-            return $this->render('empresa');
-        }//end if   
-
-        switch ($tabId) {
-            case 1:
-                $modelEmpresa = new Empresa();
-                return $this->renderAjax('_datosfiscales',[
-                    'modelEmpresa'=> $modelEmpresa,
-                ]);
-                break;
-            case 2:
-                // code...
-                break;
-            case 3:
-                // code...
-                break;
-            case 4:
-                // code...
-                break;
-            case 5:
-                // code...
-                break;
-            default:
-                // code...
-                return $this->renderAjax('_datosfiscales');
-                break;
-        }//end switch
+        return $this->render("empresa");
     }//end function
 
-    public function actionSaveempresa(){
-        $modelEmpresa = new Empresa();
-
-        if($modelEmpresa->load(Yii::$app->request->post())){
-            if ($modelEmpresa->validate()) {
-                $modelEmpresa->save();
-                Yii::$app->session->setFlash('success', "Datos Fiscales guardados correctamente.");
-            }//end if
+    public function actionDatosfiscales(){
+        $modelUser    = User::findOne(Yii::$app->user->identity->id);
+        $modelEmpresa = Empresa::find()->where(['cliente_id'=>$modelUser->cliente_id])->one();
+        if(is_null($modelEmpresa)){
+            $modelEmpresa       =  new Empresa();
+            $modelEmpresa->pais = "México";
+            $readonly           =  false;
+        }else{
+            $readonly =  true;
         }//end if
 
-        return $this->redirect(['site/empresa']);
+        if($modelEmpresa->load(Yii::$app->request->post())){
+            if($modelEmpresa->validate()){
+                $modelEmpresa->save();
+                $readonly =  true;
+                Yii::$app->session->setFlash('success', "Datos Fiscales guardados correctamente.");
+            }else{
+                Yii::$app->session->setFlash('danger', "Hubo algunos errores y no se pudo actualizar tu información, por favor revisar tus datos.");
+            }//end if
+        }//end if
+        return $this->renderAjax('_datosfiscales',['modelEmpresa'=> $modelEmpresa,'modelUser'=>$modelUser,'readonly'=>$readonly]);
     }//end function
 
     public function actionSignup() {

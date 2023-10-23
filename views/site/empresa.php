@@ -6,34 +6,49 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
 
 <div class="row">
 	<div class="col-12">
-		<ul class="nav nav-tabs nav-fill nav-light">
-			<li class="nav-item">
-				<a id="empTab1" data-toggle="tab" data-id="1"  class="tabconf nav-link active" aria-current="page" href="javascript:void(0);">Datos Fiscales</a>
-			</li>
-			<li class="nav-item">
-				<a data-toggle="tab" data-id="2"  class="tabconf nav-link" href="javascript:void(0);">Impuestos</a>
-			</li>
-			<li class="nav-item">
-				<a data-toggle="tab" data-id=3 class="tabconf nav-link" href="javascript:void(0);">Certificados</a>
-			</li>
-			<li class="nav-item">
-				<a data-toggle="tab" data-id=4  class="tabconf nav-link" href="javascript:void(0);">Admin SAT</a>
-			</li>
-			<li class="nav-item">
-				<a data-toggle="tab" data-id="5"  class="tabconf nav-link" href="javascript:void(0);">Preferencias</a>
-			</li>
-			<!-- <li class="nav-item">
-				<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-			</li> -->
-		</ul>
+		<div class="card card-dark card-tabs">
+			<div class="card-header p-0 pt-1">
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item">
+						<a id="empTab1" data-toggle="tab" data-id="1"  class="tabconf nav-link active" aria-current="page" href="javascript:void(0);">
+							<i class="fas fa-file-invoice"></i> Datos Fiscales
+						</a>
+					</li>
+					<li class="nav-item">
+						<a data-toggle="tab" data-id="2"  class="tabconf nav-link" href="javascript:void(0);">
+							<i class="fas fa-percentage"></i> Impuestos
+						</a>
+					</li>
+					<li class="nav-item">
+						<a data-toggle="tab" data-id=3 class="tabconf nav-link" href="javascript:void(0);">
+							<i class="fas fa-certificate"></i> Certificados
+						</a>
+					</li>
+					<!-- <li class="nav-item">
+						<a data-toggle="tab" data-id=4  class="tabconf nav-link" href="javascript:void(0);">
+							Admin SAT
+						</a>
+					</li> -->
+					<li class="nav-item">
+						<a data-toggle="tab" data-id="5"  class="tabconf nav-link" href="javascript:void(0);">
+							<i class="fas fa-wrench"></i> Preferencias
+						</a>
+					</li>
+					<!-- <li class="nav-item">
+						<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+					</li> -->
+				</ul>
+			</div>
+			<div class="card-body">
+				<div id="content" class="tab-content">
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
-<div id="content"></div>
-
-
 <?php
-$URL_Empresa   = Url::to(['site/empresa']);
+$URL_Empresa   = Url::to(['site/datosfiscales']);
 $script = <<< JS
 $(function(e){
 	$("#empTab1").trigger('click');
@@ -41,8 +56,21 @@ $(function(e){
 
 $(".tabconf").on("click",function(e){
 	var id = $(this).data("id");
+	var uri_render =  "";
+	switch (id) {
+		case 1:
+			// code...
+			uri_render = "{$URL_Empresa}";
+			break;
+		default:
+			// code...
+			uri_render = "{$URL_Empresa}";
+			break;
+	}//end switch
+	console.log(uri_render);
+
 	$.ajax({
-		url     : "{$URL_Empresa}",
+		url     : uri_render,
 		type    : 'GET',
 		dataType: 'HTML',
 		data    : {"id":id},

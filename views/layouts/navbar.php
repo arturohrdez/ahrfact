@@ -157,7 +157,7 @@ use yii\helpers\Url;
                 </div>
                <div class="dropdown-divider"></div>
                 <a href="<?php echo Url::to(['/site/profile']); ?>" class="dropdown-item text-center">
-                    <i class="fas fa-user-circle mr-2"></i>Mi Cuenta
+                    <i class="fas fa-user-circle mr-2"></i>Mi cuenta
                     <!-- <span class="float-right text-muted text-sm">3 mins</span> -->
                 </a>
                 <div class="dropdown-divider"></div>
