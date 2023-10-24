@@ -20,9 +20,10 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
+       // 'css/crud.css',
     ];
     public $js = [
+        'js/main.js',//Dinamic Form Ajax
     ];
     public $depends = [
         'yii\web\YiiAsset',

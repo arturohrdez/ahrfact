@@ -3,16 +3,23 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use app\assets\AppAsset;
 use yii\helpers\Html;
+
+$this->registerCssFile('@web/css/gridview.css', ['depends' => [AppAsset::class]]);
+$this->registerCssFile('@web/js/main.js', ['depends' => [AppAsset::class]]);
 
 \hail812\adminlte3\assets\FontAwesomeAsset::register($this);
 \hail812\adminlte3\assets\AdminLteAsset::register($this);
 $this->registerCssFile('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback');
-
 $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
 
 $publishedRes = Yii::$app->assetManager->publish('@vendor/hail812/yii2-adminlte3/src/web/js');
 $this->registerJsFile($publishedRes[1].'/control_sidebar.js', ['depends' => '\hail812\adminlte3\assets\AdminLteAsset']);
+
+
+
+Yii::$app->formatter->locale = 'es-MX';
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
