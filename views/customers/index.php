@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="card card-lightblue card-outline">
                 <div class="card-header">
                     <div class="col-6 float-right pb-3">
-                        <?= Html::button('<i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Agregar Customers', ['value' => Url::to('create'), 'class' => 'btn bg-gradient-danger float-right','id'=>'btnAddForm']) ?>
+                        <?= Html::button('<i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Agregar Clientes', ['value' => Url::to('create'), 'class' => 'btn bg-gradient-danger float-right','id'=>'btnAddForm']) ?>
                     </div>
                 </div>
                 <div class="card-body pad table-responsive">
