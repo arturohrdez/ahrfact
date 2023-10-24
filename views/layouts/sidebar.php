@@ -45,7 +45,7 @@ use yii\helpers\Url;
             $items[] = ['label' => 'Mi Cuenta', 'icon' => 'fas fa-user-circle', 'url' => [Url::to('/site/profile')], 'target' => ''];
             $items[] = ['label' => 'Configuración', 'icon' => 'fas fa-cog', 'url' => [Url::to('/site/empresa')], 'target' => ''];
             $items[] = ['label' => 'CATÁLOGOS', 'header' => true];
-            $items[] = ['label' => 'Clientes', 'icon' => 'fas fa-address-book', 'url' => [Url::to('/customer/index')], 'target' => ''];
+            $items[] = ['label' => 'Clientes', 'icon' => 'fas fa-address-book', 'url' => [Url::to('/customers/index')], 'target' => ''];
             $items[] = ['label' => 'Productos', 'icon' => 'fas fa-tag', 'url' => [Url::to('/products/index')], 'target' => ''];
             /*$items[] = ['label' => 'Configuración', 'icon' => 'fas fa-cog', 'url' => [Url::to('/site/empresa')], 'target' => ''];*/
             /*$items[] = ['label' => 'Rifas', 'icon' => 'fa fa-bolt', 'url' => [Url::to('/rifas/index')], 'target' => ''];
