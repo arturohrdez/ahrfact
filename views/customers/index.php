@@ -8,13 +8,13 @@ use yii\helpers\Url;
 /* @var $searchModel app\models\CustomersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Customers';
+$this->title = 'Clientes';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="container-fluid">
     <div class="loading text-center"></div>
-    <div id="divEditForm" class="col-sm-12 col-md-12 col-lg-6 offset-lg-3" style="display: none;"></div>
+    <div id="divEditForm" class="col-sm-12 col-md-12 col-lg-10 offset-lg-1" style="display: none;"></div>
 </div>
 
 <div class="app\models\Customers-index">
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="card card-lightblue card-outline">
                 <div class="card-header">
                     <div class="col-6 float-right pb-3">
-                        <?= Html::button('<i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Agregar Clientes', ['value' => Url::to('create'), 'class' => 'btn bg-gradient-danger float-right','id'=>'btnAddForm']) ?>
+                        <?= Html::button('<i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Nuevo Cliente', ['value' => Url::to('create'), 'class' => 'btn bg-gradient-success float-right rounded-pill','id'=>'btnAddForm']) ?>
                     </div>
                 </div>
                 <div class="card-body pad table-responsive">

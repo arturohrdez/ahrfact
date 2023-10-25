@@ -5,9 +5,10 @@ namespace app\controllers;
 use Yii;
 use app\models\Customers;
 use app\models\CustomersSearch;
+use app\models\User;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * CustomersController implements the CRUD actions for Customers model.
@@ -64,12 +65,14 @@ class CustomersController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Customers();
+        $model             = new Customers();
+        $modelUser         = User::findOne(Yii::$app->user->identity->id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        $model->cliente_id = $modelUser->cliente_id;
         return $this->renderAjax('create', [
             'model' => $model,
         ]);
@@ -94,6 +97,18 @@ class CustomersController extends Controller
             'model' => $model,
         ]);
     }
+
+    public function actionGetopcionescfdi(){
+        $type_rfc = Yii::$app->request->post()["type_rfc"];
+        $options  = Yii::$app->params[$type_rfc];
+
+        $opt = "<option value=''>-- Selecciona una opción --</option>";
+        foreach ($options as $key => $option) {
+            $opt .= "<option value='{$key}'>{$option}</option>";
+        }//end foreach
+
+        return $opt;
+    }//end function
 
     /**
      * Deletes an existing Customers model.
