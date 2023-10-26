@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use kartik\select2\Select2;
 use yii\bootstrap5\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -43,7 +44,17 @@ $__required__ = " <span class='text-danger'>*</span>";
     <div class="row">
         <?php echo $form->field($model, 'pais',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['disabled'=>true,'maxlength' => true])->label($model->getAttributeLabel('pais').$__required__) ?>
         
-        <?php echo $form->field($model, 'estado',['options'=>['class'=>'col-12 col-md-3 mt-3']])->dropDownList(Yii::$app->params['states'], ['prompt' => '-- Seleccione un estado --'])->label($model->getAttributeLabel('estado').$__required__); ?>
+        <?php echo $form->field($model, 'estado',['options'=>['class'=>'col-12 col-md-3 mt-3','style'=>'']])
+                ->widget(Select2::classname(),[
+                    'name'          => 'ticket_id', 
+                    'data'          => Yii::$app->params['states'],
+                    'options'       => ['placeholder' => '-- Seleccione un estado --'],
+                    'pluginOptions' => [
+                        'allowClear'    => true,
+                    ],
+                ])
+                ->label($model->getAttributeLabel('estado').$__required__);
+            ?>
 
         <?php echo $form->field($model, 'ciudad',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('ciudad').$__required__) ?>
         <?php echo $form->field($model, 'municipio',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('municipio').$__required__) ?>
@@ -65,7 +76,17 @@ $__required__ = " <span class='text-danger'>*</span>";
         </div>
     </div>
     <div class="row">
-        <?php echo $form->field($model, 'forma_pago',['options'=>['class'=>'col-12 col-md-4 mt-3']])->dropDownList(Yii::$app->params['forma_pago'], ['prompt' => '-- Seleccione una opción --'])->label($model->getAttributeLabel('forma_pago').$__required__) ?>
+        <?php echo $form->field($model, 'forma_pago',['options'=>['class'=>'col-12 col-md-4 mt-3','style'=>'']])
+                ->widget(Select2::classname(),[
+                    'name'          => 'ticket_id', 
+                    'data'          => Yii::$app->params['forma_pago'],
+                    'options'       => ['placeholder' => '-- Seleccione una opción --'],
+                    'pluginOptions' => [
+                        'allowClear'    => true,
+                    ],
+                ])
+                ->label($model->getAttributeLabel('forma_pago').$__required__);
+            ?>
     </div>
     <div class="row">
         <?php echo $form->field($model, 'comentarios',['options'=>['class'=>'col-12 col-md-12 mt-3']])->textarea(['rows' => 3]) ?>
@@ -75,7 +96,7 @@ $__required__ = " <span class='text-danger'>*</span>";
 <div class=" card-footer" align="right">
     <div id="content"></div>
 	<?=  Html::Button('<i class="fas fa-times-circle"></i> Cancelar', ['class' => 'btn btn-danger rounded-pill','id'=>'btnCloseForm','onClick'=>'closeForm("customersForm")']) ?>
-    <?= Html::submitButton('<i class="fas fa-check-circle"></i> Aceptar', ['class' => 'btn btn-success rounded-pill']) ?>
+    <?= Html::submitButton('<i class="fas fa-save"></i> Guardar Cliente', ['class' => 'btn btn-primary rounded-pill']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>

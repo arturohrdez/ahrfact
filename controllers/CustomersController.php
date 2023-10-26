@@ -69,7 +69,8 @@ class CustomersController extends Controller
         $modelUser         = User::findOne(Yii::$app->user->identity->id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            //return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
 
         $model->cliente_id = $modelUser->cliente_id;
