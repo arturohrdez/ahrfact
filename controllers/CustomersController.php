@@ -73,6 +73,7 @@ class CustomersController extends Controller
         }
 
         $model->cliente_id = $modelUser->cliente_id;
+        $model->pais       = "México";
         return $this->renderAjax('create', [
             'model' => $model,
         ]);
@@ -98,16 +99,26 @@ class CustomersController extends Controller
         ]);
     }
 
-    public function actionGetopcionescfdi(){
-        $type_rfc = Yii::$app->request->post()["type_rfc"];
-        $options  = Yii::$app->params[$type_rfc];
+    public function actionGetopciones(){
+        $uso_cfdi       = Yii::$app->request->post()["cfdi"];
+        $regimen_fiscal = Yii::$app->request->post()["rf"];
 
-        $opt = "<option value=''>-- Selecciona una opción --</option>";
-        foreach ($options as $key => $option) {
-            $opt .= "<option value='{$key}'>{$option}</option>";
+
+        $opt_cfdi    = Yii::$app->params[$uso_cfdi];
+        $opt_regimen = Yii::$app->params[$regimen_fiscal];
+
+        $opt_html_cfdi = "<option value=''>-- Selecciona una opción --</option>";
+        foreach ($opt_cfdi as $key => $option) {
+            $opt_html_cfdi .= "<option value='{$key}'>{$option}</option>";
         }//end foreach
 
-        return $opt;
+        $opt_html_regimen = "<option value=''>-- Selecciona una opción --</option>";
+        foreach ($opt_regimen as $key => $option) {
+            $opt_html_regimen .= "<option value='{$key}'>{$option}</option>";
+        }//end foreach
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return ["opt_cfdi"=>$opt_html_cfdi,"opt_regimen"=>$opt_html_regimen];
     }//end function
 
     /**
