@@ -53,7 +53,7 @@ class CustomersController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -65,8 +65,9 @@ class CustomersController extends Controller
      */
     public function actionCreate()
     {
-        $model             = new Customers();
-        $modelUser         = User::findOne(Yii::$app->user->identity->id);
+        $model       = new Customers();
+        $modelUser   = User::findOne(Yii::$app->user->identity->id);
+        $model->pais = "México";
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //return $this->redirect(['view', 'id' => $model->id]);
@@ -74,7 +75,6 @@ class CustomersController extends Controller
         }
 
         $model->cliente_id = $modelUser->cliente_id;
-        $model->pais       = "México";
         return $this->renderAjax('create', [
             'model' => $model,
         ]);

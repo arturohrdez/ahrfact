@@ -30,10 +30,36 @@ $__required__ = " <span class='text-danger'>*</span>";
         <?php echo $form->field($model, 'rfc',['options'=>['class'=>'col-12 col-md-4 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('rfc').$__required__) ?>
 
         <?php 
-            echo $form->field($model, 'uso_cfdi',['options'=>['class'=>'col-12 col-md-4 mt-3']])->dropDownList([], ['prompt'=>'-- Selecciona una opción --','disabled' => true])->label($model->getAttributeLabel('uso_cfdi').$__required__); 
+            /*echo $form->field($model, 'uso_cfdi',['options'=>['class'=>'col-12 col-md-4 mt-3']])->dropDownList([], ['prompt'=>'-- Seleccione una opción --','disabled' => true])->label($model->getAttributeLabel('uso_cfdi').$__required__); */
         ?>
 
-        <?php echo $form->field($model, 'regimen_fiscal',['options'=>['class'=>'col-12 col-md-4 mt-3']])->dropDownList([], ['prompt'=>'-- Selecciona una opción --','disabled' => true])->label($model->getAttributeLabel('regimen_fiscal').$__required__) ?>
+        <?php echo $form->field($model, 'uso_cfdi',['options'=>['class'=>'col-12 col-md-4 mt-3','style'=>'']])
+                ->widget(Select2::classname(),[
+                    'name'          => 'uso_cfdi', 
+                    'data'          => [],
+                    'options'       => ['class'=>'form-control','placeholder' => '-- Seleccione una opción --','disabled' => true],
+                    'pluginOptions' => [
+                        'allowClear'    => true,
+                    ],
+                ])
+                ->label($model->getAttributeLabel('uso_cfdi').$__required__);
+            ?>
+
+        <?php 
+            /*echo $form->field($model, 'regimen_fiscal',['options'=>['class'=>'col-12 col-md-4 mt-3']])->dropDownList([], ['prompt'=>'-- Seleccione una opción --','disabled' => true])->label($model->getAttributeLabel('regimen_fiscal').$__required__) */
+        ?>
+
+        <?php echo $form->field($model, 'regimen_fiscal',['options'=>['class'=>'col-12 col-md-4 mt-3','style'=>'']])
+                ->widget(Select2::classname(),[
+                    'name'          => 'regimen_fiscal', 
+                    'data'          => [],
+                    'options'       => ['class'=>'form-control','placeholder' => '-- Seleccione una opción --','disabled' => true],
+                    'pluginOptions' => [
+                        'allowClear'    => true,
+                    ],
+                ])
+                ->label($model->getAttributeLabel('regimen_fiscal').$__required__);
+            ?>
     </div>
     <br>
     <div class="row mt-4">
@@ -96,7 +122,7 @@ $__required__ = " <span class='text-danger'>*</span>";
 <div class=" card-footer" align="right">
     <div id="content"></div>
 	<?=  Html::Button('<i class="fas fa-times-circle"></i> Cancelar', ['class' => 'btn btn-danger rounded-pill','id'=>'btnCloseForm','onClick'=>'closeForm("customersForm")']) ?>
-    <?= Html::submitButton('<i class="fas fa-save"></i> Guardar Cliente', ['class' => 'btn btn-primary rounded-pill']) ?>
+    <?= Html::submitButton('<i class="fas fa-save"></i> Guardar Cliente', ['class' => 'btn btn-success rounded-pill']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>
@@ -114,8 +140,6 @@ $(document).ready(function(){
         var type_rfc = {};
         var flag_rfc= false;
         if(_rfc_ == 12){
-            /*type_rfc = "uso_cfdi_moral";
-            type_rfc = "regimen_fiscal_moral";*/
             type_rfc = {"cfdi":"uso_cfdi_moral","rf":"regimen_fiscal_moral"};
             flag_rfc = true;
         }else if(_rfc_ == 13){
@@ -128,7 +152,6 @@ $(document).ready(function(){
             flag_rfc = false;
         }//end if
 
-
         if(flag_rfc == true){
             console.log(type_rfc);
             $.ajax({
@@ -136,8 +159,8 @@ $(document).ready(function(){
                 type: 'post',
                 data: type_rfc,
                 beforeSend: function(){
-                    $(".field-customers-uso_cfdi").prepend('<i class="text-primary loader fas fa-spinner fa-pulse"></i>');
-                    $(".field-customers-regimen_fiscal").prepend('<i class="text-primary loader fas fa-spinner fa-pulse"></i>');
+                    //$(".field-customers-uso_cfdi").prepend('<i class="text-primary loader fas fa-spinner fa-pulse"></i>');
+                    //$(".field-customers-regimen_fiscal").prepend('<i class="text-primary loader fas fa-spinner fa-pulse"></i>');
                     //console.log("buscando datos uso cfdi");
                 },
                 success: function(response) {
@@ -154,6 +177,33 @@ $(document).ready(function(){
             });
         }
     });
+
+
+    $("#customersForm").on('beforeSubmit',function(e) {
+        e.preventDefault();
+        var form     = $(this);
+        var formData = form.serialize();
+
+        var actionForm = $(this).attr('action');
+        $.ajax({
+            url: actionForm, // Reemplaza con la URL adecuada
+            type: 'post',
+            data: formData,
+            beforeSend: function(){
+                $(".customers-create").html('<div class="row"><div class="col-12 bg-white p-5"><div class="row justify-content-center border border-secodnary border-top-0"><div class="spinner-border text-teal" role="status"></div></div></div></div>');
+            },
+            success: function(response) {
+                // Actualizar la sección de la página con la respuesta
+                $('.customers-create').html(response);
+            },
+            error: function(erro) {
+                // Manejar errores de Ajax
+                console.log(erro);
+            }
+        });
+        return false;
+    });
+
 });
 JS;
 $this->registerJs($js);

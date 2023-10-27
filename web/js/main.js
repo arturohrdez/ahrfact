@@ -1,6 +1,4 @@
 $(function(){
-	console.log("entra");
-	
 	/*** Action Button Add Form ***/
 	if(("#btnAddForm").length > 0){
 		$("#btnAddForm").on("click",function(e){
@@ -92,6 +90,10 @@ function closeForm(nameForm){
 	$("#"+nameForm)[0].reset();
 	$("#divEditForm").slideUp('slow');
 	$("#btnAddForm").show(function(e){});
+}
+
+function closeView(){
+	$("#divEditForm").slideUp('slow');
 }
 
 

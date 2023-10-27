@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
-
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CustomersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -21,25 +20,26 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <div class="card card-lightblue card-outline">
+            <div class="card card-primary card-outline">
                 <div class="card-header">
                     <div class="col-6 float-right pb-3">
-                        <?= Html::button('<i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Nuevo Cliente', ['value' => Url::to('create'), 'class' => 'btn bg-gradient-success float-right rounded-pill','id'=>'btnAddForm']) ?>
+                        <?= Html::button('<i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Nuevo Cliente', ['value' => Url::to('create'), 'class' => 'btn btn-primary float-right rounded-pill','id'=>'btnAddForm']) ?>
                     </div>
                 </div>
                 <div class="card-body pad table-responsive">
 
 
-                    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+                    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
 
-                    <?= GridView::widget([
+                    <?php 
+                    echo GridView::widget([
                         'dataProvider' => $dataProvider,
                         'filterModel' => $searchModel,
                         'columns' => [
                             ['class' => 'yii\grid\SerialColumn'],
 
-                            'id',
-                            'cliente_id',
+                            //'id',
+                            //'cliente_id',
                             'razon_social',
                             'nombre_comercial',
                             'rfc',
@@ -81,9 +81,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'pager' => [
                             'class' => 'yii\bootstrap4\LinkPager',
                         ]
-                    ]); ?>
-
-
+                    ]); 
+                    ?>
                 </div>
                 <!--.card-body-->
             </div>
@@ -94,3 +93,5 @@ $this->params['breadcrumbs'][] = $this->title;
     <!--.row-->
 </div>
 </div>
+
+

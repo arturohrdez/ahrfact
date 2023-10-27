@@ -16,12 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-xs-12">
         <div class="card card-danger">
             <div class="card-header">
-                <h1 class="card-title"><strong>&nbsp;&nbsp;&nbsp;<?=Html::encode($model->id) ?></strong></h1>
+                <h1 class="card-title"><strong>&nbsp;&nbsp;&nbsp;<?php echo Html::encode($model->razon_social) ?></strong></h1>
+                <button type="button" class="btn close text-white" onclick='closeView()'>×</button>
             </div>
             <div class="contact-view card-body">
                 <div class="col-12" align="right">
-                    <?= Html::button('<i class="fas fa-edit"></i>', ['value'=>Url::to(['update','id' => $model->id]),'class' => 'btn bg-teal btn-sm btnUpdateView', 'title'=>'Editar']) ?>
-                    <?= Html::a('<i class="fas fa-trash-alt"></i>', ['delete', 'id' => $model->id], [
+                    <?php echo  Html::button('<i class="fas fa-edit"></i>', ['value'=>Url::to(['update','id' => $model->id]),'class' => 'btn bg-teal btn-sm btnUpdateView', 'title'=>'Editar']) ?>
+                    <?php echo Html::a('<i class="fas fa-trash-alt"></i>', ['delete', 'id' => $model->id], [
                             'class' => 'btn btn-danger btn-sm',
                             'data' => [
                                 'confirm' => '¿Está seguro de eliminar este elemento?',
@@ -30,11 +31,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]) ?>
                 </div>
                 <div class="col-12 pt-3">
-                    <?= DetailView::widget([
+                    <?php 
+                    echo DetailView::widget([
                         'model' => $model,
                         'attributes' => [
-                            'id',
-                            'cliente_id',
+                            //'id',
+                            //'cliente_id',
                             'razon_social',
                             'nombre_comercial',
                             'rfc',
@@ -57,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
             <div class="card-footer text-center">
-                <?=  Html::button('Cerrar',['value'=>'','class'=>'btn btn-sm btn-success cancelView', 'title'=>'Cerrer']) ?>
+                <?php echo Html::button('<i class="fas fa-times-circle"></i> Cerrar Vista',['value'=>'','class'=>'btn btn-primary rounded-pill cancelView', 'title'=>'Cerrar Vista']) ?>
             </div>
         </div>
     </div>
