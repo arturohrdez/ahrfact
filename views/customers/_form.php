@@ -24,7 +24,7 @@ $__required__ = " <span class='text-danger'>*</span>";
     <div class="row">
         <?php echo $form->field($model, 'cliente_id')->hiddenInput()->label(false); ?>
         <?php echo $form->field($model, 'razon_social',['options'=>['class'=>'col-12 col-md-6']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('razon_social').$__required__); ?>
-        <?php echo $form->field($model, 'nombre_comercial',['options'=>['class'=>'col-12 col-md-6']])->textInput(['maxlength' => true]) ?>
+        <?php echo $form->field($model, 'nombre_comercial',['options'=>['class'=>'col-12 col-md-6']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('nombre_comercial')); ?>
     </div>
     <div class="row">
         <?php echo $form->field($model, 'rfc',['options'=>['class'=>'col-12 col-md-4 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('rfc').$__required__) ?>

@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="container-fluid">
     <div class="loading text-center"></div>
-    <div id="divEditForm" class="col-sm-12 col-md-12 col-lg-10 offset-lg-1" style="display: none;"></div>
+    <div id="divEditForm" class="col-sm-12 col-md-12 col-lg-8 offset-lg-2" style="display: none;"></div>
 </div>
 
 <div class="app\models\Customers-index">
@@ -62,6 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'class' => 'hail812\adminlte3\yii\grid\ActionColumn',
                                 'header'        => 'Actions',
                                 'headerOptions' => ['style'=>'text-align:center'],
+                                'contentOptions' => ['class'=>'text-center'],
                                 'template'      => '{view} {update} {delete}',
                                 'buttons'       => [
                                     'view'=>function($url,$model){
@@ -79,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'summaryOptions' => ['class' => 'summary mb-2'],
                         'pager' => [
-                            'class' => 'yii\bootstrap4\LinkPager',
+                            'class' => 'yii\bootstrap5\LinkPager',
                         ]
                     ]); 
                     ?>

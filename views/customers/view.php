@@ -31,8 +31,113 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]) ?>
                 </div>
                 <div class="col-12 pt-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3>Datos del Cliente</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-4">
+                            <label><?php echo $model->getAttributeLabel('razon_social'); ?></label> <br>
+                            <?php echo $model->razon_social; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-4">
+                            <label><?php echo $model->getAttributeLabel('nombre_comercial'); ?></label><br>
+                            <?php echo $model->nombre_comercial; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-4">
+                            <label><?php echo $model->getAttributeLabel('rfc'); ?></label><br>
+                            <?php echo $model->rfc; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-4 mt-2">
+                            <label><?php echo $model->getAttributeLabel('uso_cfdi'); ?></label> <br>
+                            <?php 
+                                if(strlen($model->rfc) == 12){
+                                    echo Yii::$app->params["uso_cfdi_moral"][$model->uso_cfdi];
+                                }elseif(strlen($model->rfc) == 13){
+                                    echo Yii::$app->params["uso_cfdi_fisica"][$model->uso_cfdi];
+                                }
+                            ?>
+                        </div>
+                        <div class="col-md-12 col-lg-4 mt-2">
+                            <label><?php echo $model->getAttributeLabel('regimen_fiscal');?></label> <br>
+                            <?php 
+                                if(strlen($model->rfc) == 12){
+                                    echo Yii::$app->params["regimen_fiscal_moral"][$model->regimen_fiscal];
+                                }elseif(strlen($model->rfc) == 13){
+                                    echo Yii::$app->params["regimen_fiscal_fisica"][$model->regimen_fiscal];
+                                }//end if
+                            ?>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <h3>Dirección Fiscal</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-lg-3">
+                            <label><?php echo $model->getAttributeLabel('pais'); ?></label><br>
+                            <?php echo $model->pais; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-3">
+                            <label><?php echo $model->getAttributeLabel('estado'); ?></label><br>
+                            <?php echo $model->estado; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-3">
+                            <label><?php echo $model->getAttributeLabel('ciudad'); ?></label><br>
+                            <?php echo $model->ciudad; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-3">
+                            <label><?php echo $model->getAttributeLabel('municipio'); ?></label><br>
+                            <?php echo $model->municipio; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-3 mt-2">
+                            <label><?php echo $model->getAttributeLabel('codigo_postal'); ?></label><br>
+                            <?php echo $model->codigo_postal; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-3 mt-2">
+                            <label><?php echo $model->getAttributeLabel('colonia'); ?></label><br>
+                            <?php echo $model->colonia; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-3 mt-2">
+                            <label><?php echo $model->getAttributeLabel('calle'); ?></label><br>
+                            <?php echo $model->calle; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-3 mt-2">
+                            <label><?php echo $model->getAttributeLabel('no_exterior'); ?></label><br>
+                            <?php echo $model->no_exterior; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-3 mt-2">
+                            <label><?php echo $model->getAttributeLabel('no_interior'); ?></label><br>
+                            <?php echo $model->no_interior; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-3 mt-2">
+                            <label><?php echo $model->getAttributeLabel('referencia'); ?></label><br>
+                            <?php echo $model->referencia; ?>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <h3>Pago</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label><?php echo $model->getAttributeLabel('forma_pago'); ?></label><br>
+                            <?php echo $model->forma_pago; ?>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <label><?php echo $model->getAttributeLabel('comentarios'); ?></label><br>
+                            <?php echo $model->comentarios; ?>
+                        </div>
+                    </div>
                     <?php 
-                    echo DetailView::widget([
+
+                    /*echo DetailView::widget([
                         'model' => $model,
                         'attributes' => [
                             //'id',
@@ -55,7 +160,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'no_interior',
                             'referencia:ntext',
                         ],
-                    ]) ?>
+                    ])*/ ?>
                 </div>
             </div>
             <div class="card-footer text-center">
