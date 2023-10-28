@@ -102,7 +102,9 @@ class CustomersController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->tipo = $this->decodeTipoPersona($model->rfc);
+            $model->save();
             Yii::$app->session->setFlash('success', "Se actualizo correctamente la información para :  <strong>".$model->razon_social."</strong>");
             return $this->redirect(['index']);
         }
