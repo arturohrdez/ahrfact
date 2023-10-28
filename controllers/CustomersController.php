@@ -58,6 +58,15 @@ class CustomersController extends Controller
         ]);
     }
 
+    private function decodeTipoPersona($rfc = null){
+        $rfc_length = strlen($rfc);
+        if($rfc_length == 12){
+            return  "MORAL";
+        }elseif($rfc_length == 13){
+            return "FISICA";
+        }
+    }//end function
+
     /**
      * Creates a new Customers model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -69,8 +78,10 @@ class CustomersController extends Controller
         $modelUser   = User::findOne(Yii::$app->user->identity->id);
         $model->pais = "México";
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) ) {
             //return $this->redirect(['view', 'id' => $model->id]);
+            $model->tipo = $this->decodeTipoPersona($model->rfc);
+            $model->save();
             return $this->redirect(['index']);
         }
 
@@ -92,7 +103,8 @@ class CustomersController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            Yii::$app->session->setFlash('success', "Se actualizo correctamente la información para :  <strong>".$model->razon_social."</strong>");
+            return $this->redirect(['index']);
         }
 
         return $this->renderAjax('update', [

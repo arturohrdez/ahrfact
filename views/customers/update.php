@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = 'Update';
                     <h1 class="card-title"><strong><i class="nav-icon fas fa-edit"></i>&nbsp;&nbsp;&nbsp;<?= Html::encode($this->title) ?></strong></h1>
                     <button type="button" class="btn close text-white" onclick='closeForm("customersForm")'>×</button>
                 </div>
-                <?=$this->render('_form', [
+                <?php echo $this->render('_form', [
                     'model' => $model
                 ]) ?>
             </div>

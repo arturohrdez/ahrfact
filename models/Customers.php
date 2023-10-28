@@ -46,11 +46,15 @@ class Customers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cliente_id', 'razon_social', 'rfc', 'uso_cfdi', 'regimen_fiscal', 'forma_pago', 'pais', 'estado', 'ciudad', 'municipio', 'codigo_postal', 'colonia', 'calle', 'no_exterior'], 'required'],
+            [['cliente_id', 'razon_social', 'rfc', 'uso_cfdi', 'regimen_fiscal', 'forma_pago', 'pais', 'estado', 'municipio', 'codigo_postal', 'colonia', 'calle', 'no_exterior','estatus'], 'required'],
             ['rfc', 'match', 'pattern' => '/^[A-Z]{3,4}[0-9]{6}[A-Z0-9]{3}$/', 'message' => 'RFC no válido.'],
             [['cliente_id'], 'integer'],
             [['comentarios', 'referencia'], 'string'],
             [['razon_social'], 'string', 'max' => 125],
+            [['email'], 'string', 'max' => 125],
+            ['email', 'email'],
+            ['telefono', 'number'],
+            ['telefono', 'string', 'length' => 10],
             [['nombre_comercial'], 'string', 'max' => 150],
             [['rfc'], 'string', 'max' => 13],
             [['uso_cfdi'], 'string', 'max' => 30],
@@ -77,19 +81,23 @@ class Customers extends \yii\db\ActiveRecord
             'nombre_comercial' => 'Nombre Comercial',
             'rfc'              => 'RFC',
             'uso_cfdi'         => 'Uso de CFDI',
-            'regimen_fiscal'   => 'Regimen Fiscal',
+            'regimen_fiscal'   => 'Régimen Fiscal',
             'forma_pago'       => 'Forma Pago',
             'comentarios'      => 'Comentarios',
             'pais'             => 'País',
             'estado'           => 'Estado',
             'ciudad'           => 'Ciudad',
             'municipio'        => 'Municipio',
-            'codigo_postal'    => 'Codigo Postal',
+            'codigo_postal'    => 'Código Postal',
             'colonia'          => 'Colonia',
             'calle'            => 'Calle',
             'no_exterior'      => 'No. Exterior',
             'no_interior'      => 'No. Interior',
             'referencia'       => 'Referencia',
+            'email'            => 'Correo Electrónico',
+            'telefono'         => 'Teléfono',
+            'tipo'             => 'Tipo Persona',
+            'estatus'          => 'Estatus'
         ];
     }
 

@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-xs-12">
         <div class="card card-danger">
             <div class="card-header">
-                <h1 class="card-title"><strong>&nbsp;&nbsp;&nbsp;<?php echo Html::encode($model->razon_social) ?></strong></h1>
+                <h1 class="card-title"><strong>&nbsp;&nbsp;&nbsp;<i class="nav-icon fas fa-fas fa-address-book"></i>&nbsp;&nbsp;INFORMACIÓN GENERAL: <?php echo Html::encode($model->razon_social) ?></strong></h1>
                 <button type="button" class="btn close text-white" onclick='closeView()'>×</button>
             </div>
             <div class="contact-view card-body">
@@ -69,9 +69,17 @@ $this->params['breadcrumbs'][] = $this->title;
                                 }//end if
                             ?>
                         </div>
+                        <div class="col-md-12 col-lg-4 mt-2">
+                             <label><?php echo $model->getAttributeLabel('telefono');?></label> <br>
+                             <?php echo $model->telefono; ?>
+                        </div>
+                        <div class="col-md-12 col-lg-4 mt-2">
+                             <label><?php echo $model->getAttributeLabel('email');?></label> <br>
+                             <?php echo $model->email; ?>
+                        </div>
                     </div>
 
-                    <div class="row mt-3">
+                    <div class="row mt-5">
                         <div class="col-12">
                             <h3>Dirección Fiscal</h3>
                         </div>
@@ -120,7 +128,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     </div>
 
-                    <div class="row mt-3">
+                    <div class="row mt-5">
                         <div class="col-12">
                             <h3>Pago</h3>
                         </div>
@@ -128,43 +136,30 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="row">
                         <div class="col-12">
                             <label><?php echo $model->getAttributeLabel('forma_pago'); ?></label><br>
-                            <?php echo $model->forma_pago; ?>
+                            <?php echo Yii::$app->params["forma_pago"][$model->forma_pago]; ?>
                         </div>
                         <div class="col-12 mt-2">
                             <label><?php echo $model->getAttributeLabel('comentarios'); ?></label><br>
                             <?php echo $model->comentarios; ?>
                         </div>
                     </div>
-                    <?php 
 
-                    /*echo DetailView::widget([
-                        'model' => $model,
-                        'attributes' => [
-                            //'id',
-                            //'cliente_id',
-                            'razon_social',
-                            'nombre_comercial',
-                            'rfc',
-                            'uso_cfdi',
-                            'regimen_fiscal',
-                            'forma_pago',
-                            'comentarios:ntext',
-                            'pais',
-                            'estado',
-                            'ciudad',
-                            'municipio',
-                            'codigo_postal',
-                            'colonia',
-                            'calle',
-                            'no_exterior',
-                            'no_interior',
-                            'referencia:ntext',
-                        ],
-                    ])*/ ?>
+                    <div class="row mt-4 justify-content-end">
+                        <div class="col-3">
+                            <label><?php echo $model->getAttributeLabel('estatus'); ?> : </label>
+                            <?php 
+                            if($model->estatus == 0){
+                                echo '<div class="right badge badge-danger">INACTIVO</div>';
+                            }elseif($model->estatus == 1){
+                                echo '<div class="right badge badge-success">ACTIVO</div>';
+                            }
+                            ?>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-footer text-center">
-                <?php echo Html::button('<i class="fas fa-times-circle"></i> Cerrar Vista',['value'=>'','class'=>'btn btn-primary rounded-pill cancelView', 'title'=>'Cerrar Vista']) ?>
+                <?php echo Html::button('<i class="fas fa-times-circle"></i> Cerrar Información',['value'=>'','class'=>'btn btn-primary rounded-pill cancelView', 'title'=>'Cerrar Información']) ?>
             </div>
         </div>
     </div>

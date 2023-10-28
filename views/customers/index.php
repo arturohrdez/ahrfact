@@ -26,6 +26,29 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= Html::button('<i class="fa fa-plus-circle"></i>&nbsp;&nbsp;Nuevo Cliente', ['value' => Url::to('create'), 'class' => 'btn btn-primary float-right rounded-pill','id'=>'btnAddForm']) ?>
                     </div>
                 </div>
+
+                <?php if (Yii::$app->session->hasFlash('success')): ?>
+                    <div class="row-fluid mt-2" align="center">
+                        <div class="col-sm-12">
+                            <div class="alert bg-teal alert-dismissable">
+                               <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                               <i class="icon fa fa-check"></i> <?= Yii::$app->session->getFlash('success') ?>
+                           </div>
+                        </div>
+                    </div>
+               <?php endif; ?>
+
+               <?php if (Yii::$app->session->hasFlash('danger')): ?>
+                    <div class="row-fluid mt-2" align="center">
+                        <div class="col-sm-12">
+                            <div class="alert bg-danger alert-dismissable">
+                               <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                               <i class="icon fa fa-check"></i> <?= Yii::$app->session->getFlash('danger') ?>
+                           </div>
+                        </div>
+                    </div>
+               <?php endif; ?>
+
                 <div class="card-body pad table-responsive">
 
 
@@ -78,6 +101,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             ],
                         ],
+                        'rowOptions' => function($model, $key, $index, $grid){
+                            if($model->estatus == 1){
+                                return ['style' => 'background-color: #badbcc;'];
+                            }elseif($model->estatus == 0){}
+                                return ['style' => 'background-color: #f8d7da;'];
+                        },
                         'summaryOptions' => ['class' => 'summary mb-2'],
                         'pager' => [
                             'class' => 'yii\bootstrap5\LinkPager',

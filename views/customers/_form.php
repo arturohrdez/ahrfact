@@ -33,11 +33,23 @@ $__required__ = " <span class='text-danger'>*</span>";
             /*echo $form->field($model, 'uso_cfdi',['options'=>['class'=>'col-12 col-md-4 mt-3']])->dropDownList([], ['prompt'=>'-- Seleccione una opción --','disabled' => true])->label($model->getAttributeLabel('uso_cfdi').$__required__); */
         ?>
 
-        <?php echo $form->field($model, 'uso_cfdi',['options'=>['class'=>'col-12 col-md-4 mt-3','style'=>'']])
+        <?php
+            if(is_null($model->tipo)){
+                $items         = [];
+                $disabled_cfdi = true;
+            }else{
+                if($model->tipo == "MORAL"){
+                    $items = Yii::$app->params["uso_cfdi_moral"];
+                }elseif($model->tipo = "FISICA"){
+                    $items = Yii::$app->params["uso_cfdi_fisica"];
+                }//end if
+                $disabled_cfdi = false;
+            }//end if
+            echo $form->field($model, 'uso_cfdi',['options'=>['class'=>'col-12 col-md-4 mt-3','style'=>'']])
                 ->widget(Select2::classname(),[
                     'name'          => 'uso_cfdi', 
-                    'data'          => [],
-                    'options'       => ['class'=>'form-control','placeholder' => '-- Seleccione una opción --','disabled' => true],
+                    'data'          => $items,
+                    'options'       => ['class'=>'form-control','placeholder' => '-- Seleccione una opción --','disabled' => $disabled_cfdi],
                     'pluginOptions' => [
                         'allowClear'    => true,
                     ],
@@ -49,17 +61,33 @@ $__required__ = " <span class='text-danger'>*</span>";
             /*echo $form->field($model, 'regimen_fiscal',['options'=>['class'=>'col-12 col-md-4 mt-3']])->dropDownList([], ['prompt'=>'-- Seleccione una opción --','disabled' => true])->label($model->getAttributeLabel('regimen_fiscal').$__required__) */
         ?>
 
-        <?php echo $form->field($model, 'regimen_fiscal',['options'=>['class'=>'col-12 col-md-4 mt-3','style'=>'']])
+        <?php 
+            if(is_null($model->tipo)){
+                $items         = [];
+                $disabled_regimen = true;
+            }else{
+                if($model->tipo == "MORAL"){
+                    $items = Yii::$app->params["regimen_fiscal_moral"];
+                }elseif($model->tipo = "FISICA"){
+                    $items = Yii::$app->params["regimen_fiscal_fisica"];
+                }//end if
+                $disabled_regimen = false;
+            }//end if
+            echo $form->field($model, 'regimen_fiscal',['options'=>['class'=>'col-12 col-md-4 mt-3','style'=>'']])
                 ->widget(Select2::classname(),[
                     'name'          => 'regimen_fiscal', 
-                    'data'          => [],
-                    'options'       => ['class'=>'form-control','placeholder' => '-- Seleccione una opción --','disabled' => true],
+                    'data'          => $items,
+                    'options'       => ['class'=>'form-control','placeholder' => '-- Seleccione una opción --','disabled' => $disabled_regimen],
                     'pluginOptions' => [
                         'allowClear'    => true,
                     ],
                 ])
                 ->label($model->getAttributeLabel('regimen_fiscal').$__required__);
             ?>
+    </div>
+    <div class="row">
+        <?php echo $form->field($model, 'telefono',['options'=>['class'=>'col-12 col-md-4 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('telefono')); ?>
+         <?php echo $form->field($model, 'email',['options'=>['class'=>'col-12 col-md-4 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('email')); ?>
     </div>
     <br>
     <div class="row mt-4">
@@ -117,6 +145,9 @@ $__required__ = " <span class='text-danger'>*</span>";
     <div class="row">
         <?php echo $form->field($model, 'comentarios',['options'=>['class'=>'col-12 col-md-12 mt-3']])->textarea(['rows' => 3]) ?>
     </div>
+    <div class="row mt-4 justify-content-end">
+        <?php echo $form->field($model, 'estatus',['options'=>["class"=>"col-lg-3 col-md-12"]])->dropDownList(["1"=>"Activo","0"=>"Inactivo"], ['class' => 'estatus_opt']); ?>
+    </div>
 </div>
 
 <div class=" card-footer" align="right">
@@ -148,12 +179,13 @@ $(document).ready(function(){
             flag_rfc = true;
         }else{
             $("#customers-uso_cfdi").attr('disabled',true);
+            $("#customers-regimen_fiscal").attr('disabled',true);
             type_rfc = {};
             flag_rfc = false;
         }//end if
 
         if(flag_rfc == true){
-            console.log(type_rfc);
+            //console.log(type_rfc);
             $.ajax({
                 url: '{$URL_opcionescfdi}', // Reemplaza con la URL adecuada
                 type: 'post',

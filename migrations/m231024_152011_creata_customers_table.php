@@ -16,6 +16,8 @@ class m231024_152011_creata_customers_table extends Migration
             'cliente_id'       => $this->integer()->notNull(),
             'razon_social'     => $this->string(125)->notNull(),
             'nombre_comercial' => $this->string(150),
+            'email'            => $this->string(120),
+            'telefono'         => $this->string(10),
             'rfc'              => $this->string(13)->notNull(),
             'uso_cfdi'         => $this->string(30)->notNull(),
             'regimen_fiscal'   => $this->string(80)->notNull(),
@@ -23,14 +25,16 @@ class m231024_152011_creata_customers_table extends Migration
             'comentarios'      => $this->text(),
             'pais'             => $this->string(80)->notNull(),
             'estado'           => $this->string(100)->notNull(),
-            'ciudad'           => $this->string(100)->notNull(),
+            'ciudad'           => $this->string(100),
             'municipio'        => $this->string(100)->notNull(),
             'codigo_postal'    => $this->string(5)->notNull(),
             'colonia'          => $this->string(200)->notNull(),
             'calle'            => $this->string(120)->notNull(),
             'no_exterior'      => $this->string(45)->notNull(),
             'no_interior'      => $this->string(45),
-            'referencia'       => $this->text()
+            'referencia'       => $this->text(),
+            'tipo'             => $this->string(10),
+            'estatus'          => $this->string(5)->notNull()
 
         ]);
 
