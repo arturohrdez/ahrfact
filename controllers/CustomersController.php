@@ -36,8 +36,13 @@ class CustomersController extends Controller
      */
     public function actionIndex()
     {
+        $modelUser   = User::findOne(Yii::$app->user->identity->id);
         $searchModel = new CustomersSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $params      = Yii::$app->request->queryParams;
+        $params["CustomersSearch"]["cliente_id"] = $modelUser->cliente_id; //Filtra customers del cliente relacionado al usuario
+        
+        
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -143,10 +148,13 @@ class CustomersController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+    public function actionDelete($id){
 
+        //$this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->estatus = 2;
+        $model->save();
+        Yii::$app->session->setFlash('success', "Se elimino el cliente :  <strong>".$model->razon_social."</strong>");
         return $this->redirect(['index']);
     }
 

@@ -18,7 +18,7 @@ class CustomersSearch extends Customers
     {
         return [
             [['id', 'cliente_id'], 'integer'],
-            [['razon_social', 'nombre_comercial', 'rfc', 'uso_cfdi', 'regimen_fiscal', 'forma_pago', 'comentarios', 'pais', 'estado', 'ciudad', 'municipio', 'codigo_postal', 'colonia', 'calle', 'no_exterior', 'no_interior', 'referencia'], 'safe'],
+            [['razon_social', 'nombre_comercial', 'rfc', 'uso_cfdi', 'regimen_fiscal', 'forma_pago', 'comentarios', 'pais', 'estado', 'ciudad', 'municipio', 'codigo_postal', 'colonia', 'calle', 'no_exterior', 'no_interior', 'referencia','estatus'], 'safe'],
         ];
     }
 
@@ -40,8 +40,8 @@ class CustomersSearch extends Customers
      */
     public function search($params)
     {
-        $query = Customers::find();
-
+        //$query = Customers::find();
+        $query = Customers::find()->andWhere(["<>","estatus","2"]);
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -78,7 +78,9 @@ class CustomersSearch extends Customers
             ->andFilterWhere(['like', 'calle', $this->calle])
             ->andFilterWhere(['like', 'no_exterior', $this->no_exterior])
             ->andFilterWhere(['like', 'no_interior', $this->no_interior])
-            ->andFilterWhere(['like', 'referencia', $this->referencia]);
+            ->andFilterWhere(['like', 'referencia', $this->referencia])
+            ->andFilterWhere(['=', 'estatus', $this->estatus])
+            ;
 
         return $dataProvider;
     }

@@ -58,6 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     echo GridView::widget([
                         'dataProvider' => $dataProvider,
                         'filterModel' => $searchModel,
+                        'tableOptions' => ["class"=>"table table-bordered"],
                         'columns' => [
                             ['class' => 'yii\grid\SerialColumn'],
 
@@ -80,7 +81,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             //'no_exterior',
                             //'no_interior',
                             //'referencia:ntext',
-
+                            [
+                                'label'          => 'Estatus',
+                                'attribute'      => 'estatusa',
+                                'format'         => 'html',
+                                'contentOptions' => ['class'=>'text-center'],
+                                'value'          => function($model){
+                                    if($model->estatus == 0){
+                                        return '<div class="right badge badge-secondary">INACTIVO</div>';
+                                    }elseif($model->estatus == 1){
+                                        return '<div class="right badge badge-success">ACTIVO</div>';
+                                    }//end if
+                                },
+                                'filter' =>  Html::activeDropDownList($searchModel,'estatus',[0=>'INACTIVO',1=>'ACTIVO'],['class' => 'form-control','prompt'=>'Todos'])
+                            ],
                             [
                                 'class' => 'hail812\adminlte3\yii\grid\ActionColumn',
                                 'header'        => 'Actions',
@@ -95,16 +109,20 @@ $this->params['breadcrumbs'][] = $this->title;
                                         return Html::button('<i class="fas fa-edit"></i>',['value'=>Url::to(['update','id' => $model->id]), 'class' => 'btn bg-teal btn-sm btnUpdateForm','title'=>'Editar']);
                                     },
                                     'delete'=>function ($url, $model) {
-                                        return Html::a('<i class="fas fa-trash-alt"></i>', $url = Url::to(['delete','id' => $model->id]), ['class' => 'btn bg-danger btn-sm','title'=>'Eliminar','data-pajax'=>0, 'data-confirm'=>'¿Está seguro de eliminar este elemento?','data-method'=>'post']);
+                                        if($model->estatus != 2){
+                                            return Html::a('<i class="fas fa-trash-alt"></i>', $url = Url::to(['delete','id' => $model->id]), ['class' => 'btn bg-danger btn-sm','title'=>'Eliminar','data-pajax'=>0, 'data-confirm'=>'¿Está seguro de querer eliminar el cliente: '.$model->razon_social.'?','data-method'=>'post']);
+                                        }
                                     },
                                 ]
 
                             ],
                         ],
                         'rowOptions' => function($model, $key, $index, $grid){
-                            if($model->estatus == 1){
+                            if($model->estatus == 0){
+                                return ['style' => 'background-color: #e2e3e5;'];
+                            }elseif($model->estatus == 1){
                                 return ['style' => 'background-color: #badbcc;'];
-                            }elseif($model->estatus == 0){}
+                            }elseif($model->estatus == 2){}
                                 return ['style' => 'background-color: #f8d7da;'];
                         },
                         'summaryOptions' => ['class' => 'summary mb-2'],
