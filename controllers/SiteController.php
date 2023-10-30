@@ -147,13 +147,19 @@ class SiteController extends Controller {
         if(is_null($modelEmpresa)){
             $modelEmpresa       =  new Empresa();
             $modelEmpresa->pais = "México";
-            $readonly           =  false;
+            $readonly           = false;
+            $rfc                = "new";
         }else{
+            $rfc      = $modelEmpresa->rfc;
             $readonly =  true;
         }//end if
 
         if($modelEmpresa->load(Yii::$app->request->post())){
             if($modelEmpresa->validate()){
+                if($rfc != "new"){
+                    $modelEmpresa->rfc = $rfc;
+                }//end if
+                
                 $modelEmpresa->save();
                 $readonly =  true;
                 Yii::$app->session->setFlash('success', "Datos Fiscales guardados correctamente.");

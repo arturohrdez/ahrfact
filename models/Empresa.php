@@ -44,7 +44,7 @@ class Empresa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['razon_social', 'rfc', 'calle',  'codigo_postal', 'colonia', 'municipio', 'estado', 'pais', 'regimen_fiscal', 'cliente_id'], 'required'],
+            [['razon_social', 'rfc', 'calle', 'codigo_postal', 'colonia', 'municipio', 'estado', 'pais', 'regimen_fiscal', 'cliente_id'], 'required'],
             ['rfc', 'match', 'pattern' => '/^[A-Z]{3,4}[0-9]{6}[A-Z0-9]{3}$/', 'message' => 'RFC no válido.'],
             ['cliente_id', 'integer'],
             [['razon_social', 'nombre', 'calle', 'colonia', 'municipio', 'estado', 'pais', 'referencia', 'regimen_fiscal'], 'string', 'max' => 255],

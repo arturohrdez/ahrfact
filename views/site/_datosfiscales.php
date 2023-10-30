@@ -1,6 +1,7 @@
 <?php 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use kartik\select2\Select2;
 use yii\bootstrap5\ActiveForm;
 ?>
 
@@ -82,7 +83,18 @@ use yii\bootstrap5\ActiveForm;
             <?php echo $form->field($modelEmpresa, 'colonia',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['placeholder' => 'Colonia'])->label('Colonia *'); ?>
             <?php echo $form->field($modelEmpresa, 'localidad',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['placeholder' => 'Ciudad'])->label('Ciudad *'); ?>
             <?php echo $form->field($modelEmpresa, 'municipio',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['placeholder' => 'Municipio'])->label('Municipio *'); ?>
-            <?php echo $form->field($modelEmpresa, 'estado',['options'=>['class'=>'col-12 col-md-3 mt-3']])->dropDownList(Yii::$app->params['states'], ['class'=>'form-control','prompt' => 'Seleccione una opción'])->label('Estado *');?>
+            <?php 
+                echo $form->field($modelEmpresa, 'estado',['options'=>['class'=>'col-12 col-md-3 mt-3','style'=>'']])
+                ->widget(Select2::classname(),[
+                    'name'          => 'ticket_id', 
+                    'data'          => Yii::$app->params['states'],
+                    'options'       => ['placeholder' => '-- Seleccione un estado --'],
+                    'pluginOptions' => [
+                        'allowClear'    => true,
+                    ],
+                ])
+                ->label($modelEmpresa->getAttributeLabel('estado')."*");
+            ?>
             <?php echo $form->field($modelEmpresa, 'pais',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['placeholder' => 'País','readonly'=>true,'disabled'=>$readonly])->label('País *'); ?>
             <?php echo $form->field($modelEmpresa, 'referencia',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['placeholder' => 'Referencia'])->label('Referencia *'); ?>
         </div>
@@ -94,7 +106,20 @@ use yii\bootstrap5\ActiveForm;
         </div>
 
         <div class="row">
-            <?php echo $form->field($modelEmpresa, 'regimen_fiscal',['options'=>['class'=>'col-12 col-md-3 mt-3']])->dropDownList(Yii::$app->params['regimen_fiscal'],['class'=>'form-control','prompt' => 'Seleccione una opción'])->label('Regimen Fiscal *');?>
+            <?php 
+                $items = [];
+                echo $form->field($modelEmpresa, 'regimen_fiscal',['options'=>['class'=>'col-12 col-md-4 mt-3','style'=>'']])
+                ->widget(Select2::classname(),[
+                    'name'          => 'regimen_fiscal', 
+                    'data'          => $items,
+                    'options'       => ['class'=>'form-control','placeholder' => '-- Seleccione una opción --','disabled' => false],
+                    'pluginOptions' => [
+                        'allowClear'    => true,
+                    ],
+                ])
+                ->label($modelEmpresa->getAttributeLabel('regimen_fiscal')."*");
+                //echo $form->field($modelEmpresa, 'regimen_fiscal',['options'=>['class'=>'col-12 col-md-3 mt-3']])->dropDownList([],['class'=>'form-control','prompt' => 'Seleccione una opción'])->label('Regimen Fiscal *');
+            ?>
         </div>
 
         <div class="row mt-3">
@@ -111,10 +136,51 @@ use yii\bootstrap5\ActiveForm;
 
 <?php
 $URL_Datosfiscales = Url::to(['site/datosfiscales']);
+$URL_opcionescfdi = Url::to(['customers/getopciones']);
 $js = <<<JS
     $(document).ready(function(){
-        $("#empresa-rfc, #empresa-curp").on('keyup', function(e) {
+        $("#empresa-rfc").on('keyup', function(e) {
             //console.log($(this).val());
+            var uppercase = $(this).val().toUpperCase();
+            $(this).val(uppercase);
+
+            var _rfc_ = $(this).val().length;
+            if(_rfc_ == 12){
+                type_rfc = {"cfdi":"uso_cfdi_moral","rf":"regimen_fiscal_moral"};
+                flag_rfc = true;
+            }else if(_rfc_ == 13){
+                type_rfc = "uso_cfdi_fisica";
+                type_rfc = {"cfdi":"uso_cfdi_fisica","rf":"regimen_fiscal_fisica"};
+                flag_rfc = true;
+            }else{
+                type_rfc = {};
+                flag_rfc = false;
+            }//end if
+
+            if(flag_rfc == true){
+                //console.log(type_rfc);
+                $.ajax({
+                    url: '{$URL_opcionescfdi}', // Reemplaza con la URL adecuada
+                    type: 'post',
+                    data: type_rfc,
+                    beforeSend: function(){
+                        //$(".field-customers-uso_cfdi").prepend('<i class="text-primary loader fas fa-spinner fa-pulse"></i>');
+                        //$(".field-customers-regimen_fiscal").prepend('<i class="text-primary loader fas fa-spinner fa-pulse"></i>');
+                        //console.log("buscando datos uso cfdi");
+                    },
+                    success: function(response) {
+                        //$(".loader").remove();
+                        // Actualizar la sección de la página con la respuesta
+                        $('#empresa-regimen_fiscal').html(response.opt_regimen);
+                        $("#empresa-regimen_fiscal").attr("disabled", false);
+
+
+                    }
+                });
+            }
+        });
+
+        $("#empresa-curp").on('keyup', function(e){
             var uppercase = $(this).val().toUpperCase();
             $(this).val(uppercase);
         });
@@ -145,15 +211,6 @@ $js = <<<JS
         });
     });
 
-    $("#btnEditProfile").on("click",function(e){
-        $(this).hide();
-        $(".readonly_mod").attr("readonly",false);
-        $("#btnSaveProfile, #btnCencelProfile").show();
-    });
-
-    $("#btnCencelProfile").on("click",function(e){
-        location.reload();
-    });
 JS;
 
 $this->registerJs($js);

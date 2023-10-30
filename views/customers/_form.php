@@ -196,7 +196,7 @@ $(document).ready(function(){
                     //console.log("buscando datos uso cfdi");
                 },
                 success: function(response) {
-                    $(".loader").remove();
+                    //$(".loader").remove();
                     // Actualizar la sección de la página con la respuesta
                     $('#customers-uso_cfdi').html(response.opt_cfdi);
                     $("#customers-uso_cfdi").attr("disabled", false);
