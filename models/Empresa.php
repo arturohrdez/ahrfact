@@ -25,6 +25,7 @@ use app\models\Clientes;
  * @property string|null $referencia
  * @property string $regimen_fiscal
  * @property int $cliente_id
+ * @property int $tipo
  *
  * @property Clientes $cliente
  */
@@ -48,6 +49,7 @@ class Empresa extends \yii\db\ActiveRecord
             ['rfc', 'match', 'pattern' => '/^[A-Z]{3,4}[0-9]{6}[A-Z0-9]{3}$/', 'message' => 'RFC no válido.'],
             ['cliente_id', 'integer'],
             [['razon_social', 'nombre', 'calle', 'colonia', 'municipio', 'estado', 'pais', 'referencia', 'regimen_fiscal'], 'string', 'max' => 255],
+            [['tipo'], 'string', 'max' => 10],
             [['rfc'], 'string', 'max' => 15],
             [['curp'], 'string', 'max' => 20],
             [['no_exterior'], 'string', 'max' => 45],
@@ -64,23 +66,24 @@ class Empresa extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'razon_social' => 'Razon Social',
-            'nombre' => 'Nombre',
-            'RFC' => 'Rfc',
-            'CURP' => 'Curp',
-            'calle' => 'Calle',
-            'no_exterior' => 'No Exterior',
-            'no_interior' => 'No Interior',
-            'codigo_postal' => 'Codigo Postal',
-            'colonia' => 'Colonia',
-            'localidad' => 'Localidad',
-            'municipio' => 'Municipio',
-            'estado' => 'Estado',
-            'pais' => 'Pais',
-            'referencia' => 'Referencia',
+            'id'             => 'ID',
+            'razon_social'   => 'Razon Social',
+            'nombre'         => 'Nombre',
+            'RFC'            => 'Rfc',
+            'CURP'           => 'Curp',
+            'calle'          => 'Calle',
+            'no_exterior'    => 'No Exterior',
+            'no_interior'    => 'No Interior',
+            'codigo_postal'  => 'Codigo Postal',
+            'colonia'        => 'Colonia',
+            'localidad'      => 'Localidad',
+            'municipio'      => 'Municipio',
+            'estado'         => 'Estado',
+            'pais'           => 'Pais',
+            'referencia'     => 'Referencia',
             'regimen_fiscal' => 'Regimen Fiscal',
-            'cliente_id' => 'Cliente ID',
+            'cliente_id'     => 'Cliente ID',
+            'tipo'           => 'Tipo',
         ];
     }
 

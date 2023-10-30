@@ -66,6 +66,15 @@ class SiteController extends Controller {
         ];
     }
 
+    private function decodeTipoPersonaEmpresa($rfc = null){
+        $rfc_length = strlen($rfc);
+        if($rfc_length == 12){
+            return  "MORAL";
+        }elseif($rfc_length == 13){
+            return "FISICA";
+        }
+    }//end function
+
     public function actionIndex() {
         return $this->render('index');
     }
@@ -160,8 +169,9 @@ class SiteController extends Controller {
                     $modelEmpresa->rfc = $rfc;
                 }//end if
                 
+                $modelEmpresa->tipo = $this->decodeTipoPersonaEmpresa($modelEmpresa->rfc);
                 $modelEmpresa->save();
-                $readonly =  true;
+                $readonly    =  true;
                 Yii::$app->session->setFlash('success', "Datos Fiscales guardados correctamente.");
             }else{
                 Yii::$app->session->setFlash('danger', "Hubo algunos errores y no se pudo actualizar tu información, por favor revisar tus datos.");

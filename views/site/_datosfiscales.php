@@ -107,7 +107,16 @@ use yii\bootstrap5\ActiveForm;
 
         <div class="row">
             <?php 
-                $items = [];
+                if(is_null($modelEmpresa->tipo)){
+                    $items         = [];
+                }else{
+                    if($modelEmpresa->tipo == "MORAL"){
+                        $items = Yii::$app->params["regimen_fiscal_moral"];
+                    }elseif($modelEmpresa->tipo = "FISICA"){
+                        $items = Yii::$app->params["regimen_fiscal_fisica"];
+                    }//end if
+                }//end if
+
                 echo $form->field($modelEmpresa, 'regimen_fiscal',['options'=>['class'=>'col-12 col-md-4 mt-3','style'=>'']])
                 ->widget(Select2::classname(),[
                     'name'          => 'regimen_fiscal', 
