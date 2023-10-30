@@ -44,14 +44,15 @@ class Empresa extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['razon_social', 'rfc', 'calle', 'no_exterior', 'codigo_postal', 'colonia', 'localidad', 'municipio', 'estado', 'pais', 'regimen_fiscal', 'cliente_id'], 'required'],
+            [['razon_social', 'rfc', 'calle',  'codigo_postal', 'colonia', 'municipio', 'estado', 'pais', 'regimen_fiscal', 'cliente_id'], 'required'],
             ['rfc', 'match', 'pattern' => '/^[A-Z]{3,4}[0-9]{6}[A-Z0-9]{3}$/', 'message' => 'RFC no válido.'],
-            [['no_exterior', 'cliente_id'], 'integer'],
-            [['razon_social', 'nombre', 'calle', 'colonia', 'localidad', 'municipio', 'estado', 'pais', 'referencia', 'regimen_fiscal'], 'string', 'max' => 255],
+            ['cliente_id', 'integer'],
+            [['razon_social', 'nombre', 'calle', 'colonia', 'municipio', 'estado', 'pais', 'referencia', 'regimen_fiscal'], 'string', 'max' => 255],
             [['rfc'], 'string', 'max' => 15],
             [['curp'], 'string', 'max' => 20],
+            [['no_exterior'], 'string', 'max' => 45],
             ['curp', 'match', 'pattern' => '/^[A-Z]{4}\d{6}[HM][A-Z]{5}\d{2}$/', 'message' => 'CURP no válida.'],
-            [['no_interior'], 'string', 'max' => 100],
+            [['no_interior','localidad'], 'string', 'max' => 100],
             [['codigo_postal'], 'string', 'max' => 5],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::class, 'targetAttribute' => ['cliente_id' => 'id']],
         ];
