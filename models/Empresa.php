@@ -55,7 +55,8 @@ class Empresa extends \yii\db\ActiveRecord
             [['no_exterior'], 'string', 'max' => 45],
             ['curp', 'match', 'pattern' => '/^[A-Z]{4}\d{6}[HM][A-Z]{5}\d{2}$/', 'message' => 'CURP no válida.'],
             [['no_interior','localidad'], 'string', 'max' => 100],
-            [['codigo_postal'], 'string', 'max' => 5],
+            [['codigo_postal'], 'number'],
+            [['codigo_postal'], 'string', 'length'=>5],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => Clientes::class, 'targetAttribute' => ['cliente_id' => 'id']],
         ];
     }
