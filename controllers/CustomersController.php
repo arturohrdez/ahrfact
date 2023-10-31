@@ -50,6 +50,10 @@ class CustomersController extends Controller
         ]);
     }
 
+    public function actionImport(){
+        return $this->render('import');
+    }//end if
+
     /**
      * Displays a single Customers model.
      * @param int $id ID

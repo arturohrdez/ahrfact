@@ -45,7 +45,16 @@ use yii\helpers\Url;
             $items[] = ['label' => 'Mi Cuenta', 'icon' => 'fas fa-user-circle', 'url' => [Url::to('/site/profile')], 'target' => ''];
             $items[] = ['label' => 'Configuración', 'icon' => 'fas fa-cog', 'url' => [Url::to('/site/empresa')], 'target' => ''];
             $items[] = ['label' => 'CATÁLOGOS', 'header' => true];
-            $items[] = ['label' => 'Clientes', 'icon' => 'fas fa-address-book', 'url' => [Url::to('/customers/index')], 'target' => ''];
+
+            //$items[] = ['label' => 'Level1'];
+            $items[] = [
+                        'label' => 'Clientes',  'icon' => 'fas fa-address-book',
+                        'items' => [
+                            ['label' => 'Clientes', 'icon' => 'fas fa-user-plus', 'url' => [Url::to('/customers/index')], 'target' => ''],
+                            ['label' => 'Importar Clientes', 'icon' => 'fas fa-user-cog','url' => [Url::to('/customers/import')], 'target' => '']
+                        ]
+                    ];
+            //$items[] = ['label' => 'Clientes', 'icon' => 'fas fa-address-book', 'url' => [Url::to('/customers/index')], 'target' => ''];
             $items[] = ['label' => 'Productos', 'icon' => 'fas fa-tag', 'url' => [Url::to('/products/index')], 'target' => ''];
             /*$items[] = ['label' => 'Configuración', 'icon' => 'fas fa-cog', 'url' => [Url::to('/site/empresa')], 'target' => ''];*/
             /*$items[] = ['label' => 'Rifas', 'icon' => 'fa fa-bolt', 'url' => [Url::to('/rifas/index')], 'target' => ''];

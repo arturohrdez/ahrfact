@@ -9,8 +9,9 @@ $config = [
     'language' => 'es',
     'bootstrap' => ['log'],
     'aliases' => [
-        '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@bower'                    => '@vendor/bower-asset',
+        '@npm'                      => '@vendor/npm-asset',
+        '@PhpOffice\PhpSpreadsheet' => '@vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
     ],
     'components' => [
         'request' => [
