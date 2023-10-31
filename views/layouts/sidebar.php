@@ -45,13 +45,11 @@ use yii\helpers\Url;
             $items[] = ['label' => 'Mi Cuenta', 'icon' => 'fas fa-user-circle', 'url' => [Url::to('/site/profile')], 'target' => ''];
             $items[] = ['label' => 'Configuración', 'icon' => 'fas fa-cog', 'url' => [Url::to('/site/empresa')], 'target' => ''];
             $items[] = ['label' => 'CATÁLOGOS', 'header' => true];
-
-            //$items[] = ['label' => 'Level1'];
             $items[] = [
                         'label' => 'Clientes',  'icon' => 'fas fa-address-book',
                         'items' => [
                             ['label' => 'Clientes', 'icon' => 'fas fa-user-plus', 'url' => [Url::to('/customers/index')], 'target' => ''],
-                            ['label' => 'Importar Clientes', 'icon' => 'fas fa-user-cog','url' => [Url::to('/customers/import')], 'target' => '']
+                            ['label' => 'Importar Clientes', 'icon' => 'far fa-id-card','url' => [Url::to('/customers/import')], 'target' => '']
                         ]
                     ];
             //$items[] = ['label' => 'Clientes', 'icon' => 'fas fa-address-book', 'url' => [Url::to('/customers/index')], 'target' => ''];

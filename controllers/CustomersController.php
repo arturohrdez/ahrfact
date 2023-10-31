@@ -5,10 +5,13 @@ namespace app\controllers;
 use Yii;
 use app\models\Customers;
 use app\models\CustomersSearch;
+use app\models\ExcelUploadForm;
 use app\models\User;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
  * CustomersController implements the CRUD actions for Customers model.
@@ -50,8 +53,63 @@ class CustomersController extends Controller
         ]);
     }
 
+
+    private function validHeadersFile($worksheet){
+        $headers          = Yii::$app->params["headers_import_customers"];
+        $razon_social     = $worksheet->getCell('A1')->getValue();
+        $nombre_comercial = $worksheet->getCell('B1')->getValue();
+        $rfc              = $worksheet->getCell('C1')->getValue();
+        $uso_cfdi         = $worksheet->getCell('D1')->getValue();
+        $regimen_fiscal   = $worksheet->getCell('E1')->getValue();
+        $forma_pago       = $worksheet->getCell('F1')->getValue();
+        $calle            = $worksheet->getCell('G1')->getValue();
+        $no_exterior      = $worksheet->getCell('H1')->getValue();
+        $no_interior      = $worksheet->getCell('I1')->getValue();
+        $colonia          = $worksheet->getCell('J1')->getValue();
+        $municipio        = $worksheet->getCell('K1')->getValue();
+        $ciudad           = $worksheet->getCell('L1')->getValue();
+        $referencia       = $worksheet->getCell('M1')->getValue();
+        $estado           = $worksheet->getCell('N1')->getValue();
+        $pais             = $worksheet->getCell('O1')->getValue();
+        $codigo_postal    = $worksheet->getCell('P1')->getValue();
+        $telefono         = $worksheet->getCell('Q1')->getValue();
+        $email            = $worksheet->getCell('R1')->getValue();
+
+        if($razon_social != $headers[0] || $nombre_comercial != $headers[1] || $rfc != $headers[2] || $uso_cfdi != $headers[3] || $regimen_fiscal != $headers[4] || $forma_pago != $headers[5] || $calle != $headers[6] || $no_exterior != $headers[7] || $no_interior != $headers[8] || $colonia != $headers[9] || $municipio != $headers[10] || $ciudad != $headers[11] || $referencia != $headers[12] || $estado != $headers[13] || $pais != $headers[14] || $codigo_postal != $headers[15] || $telefono != $headers[16] || $email != $headers[17]){
+            return false;
+        }
+
+        return true;
+    }//end function
+
     public function actionImport(){
-        return $this->render('import');
+        $model = new ExcelUploadForm();
+
+        if($model->load(Yii::$app->request->post())){
+            $model->excelFile = UploadedFile::getInstance($model, 'excelFile');
+
+            if ($model->excelFile){
+                $spreadsheet  = IOFactory::load($model["excelFile"]->tempName);
+                $worksheet    = $spreadsheet->getActiveSheet();
+                $validHeaders = $this->validHeadersFile($worksheet);
+
+                if(!$validHeaders){
+                    Yii::$app->session->setFlash('danger', "El archivo <strong>".$model["excelFile"]->name."</strong> no contiene las cabeceras necesarias o tienen un nombre incorrecto, por favor verifique el archivo y vuelva a intentarlo.");
+                    return $this->renderAjax('_importForm',["model"=>$model]);   
+                }
+                echo "<pre>";
+                var_dump($validHeaders);
+                echo "</pre>";
+                //$data        = $worksheet->toArray();
+                /*echo "<pre>";
+                var_dump($cellValue_a1);
+                echo "</pre>";*/
+            }
+            echo "entra";
+            die();
+        }//end if
+
+        return $this->render('import',["model"=>$model]);
     }//end if
 
     /**
