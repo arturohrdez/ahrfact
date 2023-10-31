@@ -119,11 +119,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'rowOptions' => function($model, $key, $index, $grid){
                             if($model->estatus == 0){
-                                return ['style' => 'background-color: #e2e3e5;'];
+                                return ['style' => 'background-color: #e2e3e5; --bs-table-bg: #e2e3e5;'];
                             }elseif($model->estatus == 1){
-                                return ['style' => 'background-color: #badbcc;'];
+                                return ['style' => 'background-color: #badbcc; --bs-table-bg: #badbcc;',];
                             }elseif($model->estatus == 2){}
-                                return ['style' => 'background-color: #f8d7da;'];
+                                return ['style' => 'background-color: #f8d7da; --bs-table-bg: #f8d7da;'];
                         },
                         'summaryOptions' => ['class' => 'summary mb-2'],
                         'pager' => [
