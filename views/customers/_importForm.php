@@ -55,13 +55,13 @@ use yii\bootstrap5\ActiveForm;
 
             <?php ActiveForm::end(); ?>
 
-            <div class="progress" style="display: none;">
+            <!-- <div class="progress" style="display: none;">
                 <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
                     <span class="progress-text">Cargando...</span>
                 </div>
-            </div>
+            </div> -->
 
-            <div id="upload-response" style="display: none;"></div>
+            <!-- <div id="upload-response" style="display: none;"></div> -->
         </div>    		
     </div>
 </div>

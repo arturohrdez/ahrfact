@@ -33,21 +33,28 @@ use yii\helpers\Html;
             ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
 
         <div class="row">
-            <!-- <div class="col-8">
-                <?/*= $form->field($model, 'rememberMe')->checkbox([
-                    'template' => '<div class="icheck-teal">{input}{label}</div>',
+            <div class="col-8">
+                <?php echo $form->field($model, 'rememberMe')->checkbox([
+                    'template' => '<div class="icheck-danger">{input}{label}</div>',
                     'labelOptions' => [
                         'class' => ''
                     ],
                     'uncheck' => null
-                ]) */?>
-            </div> -->
+                ]);?>
+            </div>
             <div class="col-12">
                 <?= Html::submitButton('Iniciar Sesión', ['class' => 'btn btn-block bg-gradient-danger']) ?>
             </div>
         </div>
 
         <?php \yii\bootstrap5\ActiveForm::end(); ?>
+        <div class="row">
+            <div class="col-12">
+                <div class="mt-3 text-right">
+                    <a href="forgot-password.html" class="text-primary">¿Olvidasté tu contraseña?</a>
+                </div>
+            </div>
+        </div>
 
         <!-- <div class="social-auth-links text-center mb-3">
             <p>- OR -</p>

@@ -48,6 +48,7 @@ class Customers extends \yii\db\ActiveRecord
         return [
             [['cliente_id', 'razon_social', 'rfc', 'uso_cfdi', 'regimen_fiscal', 'forma_pago', 'pais', 'estado', 'municipio', 'codigo_postal', 'colonia', 'calle', 'no_exterior','estatus'], 'required'],
             ['rfc', 'match', 'pattern' => '/^[A-Z]{3,4}[0-9]{6}[A-Z0-9]{3}$/', 'message' => 'RFC no válido.'],
+            ['rfc', 'unique'],
             [['cliente_id'], 'integer'],
             [['comentarios', 'referencia'], 'string'],
             [['razon_social'], 'string', 'max' => 125],

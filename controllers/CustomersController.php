@@ -96,11 +96,99 @@ class CustomersController extends Controller
                 if(!$validHeaders){
                     Yii::$app->session->setFlash('danger', "El archivo <strong>".$model["excelFile"]->name."</strong> no contiene las cabeceras necesarias o tienen un nombre incorrecto, por favor verifique el archivo y vuelva a intentarlo.");
                     return $this->renderAjax('_importForm',["model"=>$model]);   
-                }
+                }//end if
+
+                $modelUser    = User::findOne(Yii::$app->user->identity->id);
+                $data         = $worksheet->toArray(null, true, true, true);
+                $data_success = [];
+                $data_error   = [];
+                $flag_error   = false;
+                for ($i=2; $i < count($data) ; $i++) {
+                    $customersModel                   = new Customers();
+                    $customersModel->cliente_id       = $modelUser->cliente_id;
+                    $customersModel->razon_social     = $data[$i]["A"];
+                    $customersModel->nombre_comercial = $data[$i]["B"];
+                    $customersModel->email            = $data[$i]["R"];
+                    $customersModel->telefono         = $data[$i]["Q"];
+                    $customersModel->rfc              = $data[$i]["C"];
+                    $customersModel->uso_cfdi         = $data[$i]["D"];
+                    $customersModel->regimen_fiscal   = $data[$i]["E"];
+                    $customersModel->forma_pago       = $data[$i]["F"];
+                    $customersModel->comentarios      = null;
+                    $customersModel->pais             = $data[$i]["O"];
+                    $customersModel->estado           = strtoupper($data[$i]["N"]);
+                    $customersModel->ciudad           = $data[$i]["L"];
+                    $customersModel->municipio        = $data[$i]["K"];
+                    $customersModel->codigo_postal    = $data[$i]["P"];
+                    $customersModel->colonia          = $data[$i]["J"];
+                    $customersModel->calle            = $data[$i]["G"];
+                    $customersModel->no_exterior      = $data[$i]["H"];
+                    $customersModel->no_interior      = $data[$i]["I"];
+                    $customersModel->referencia       = $data[$i]["M"];
+                    $customersModel->tipo             = $this->decodeTipoPersona($data[$i]["C"]);
+                    $customersModel->estatus          = 1;
+
+                    if ($customersModel->validate()) {
+                        if($customersModel->tipo == "FISICA"){
+                            $valid_uso_cfdi       = isset(Yii::$app->params["uso_cfdi_fisica"][$customersModel->uso_cfdi]) ? true : false;
+                            $valid_regimen_fiscal = isset(Yii::$app->params["regimen_fiscal_fisica"][$customersModel->regimen_fiscal]) ? true : false;
+                        }elseif($customersModel->tipo =  "MORAL"){
+                            $valid_uso_cfdi       = isset(Yii::$app->params["uso_cfdi_moral"][$customersModel->uso_cfdi]) ? true : false;
+                            $valid_regimen_fiscal = isset(Yii::$app->params["regimen_fiscal_moral"][$customersModel->regimen_fiscal]) ? true : false;
+                        }//end if
+
+                        if(!$valid_uso_cfdi){
+                            $error_["uso_cfdi"] = ["USO de CFDI, no es valido para el tipo de persona fiscal"];
+                            $flag_error         = true;
+                        }//end if
+
+                        if(!$valid_regimen_fiscal){
+                            $error_["regimen_fiscal"] = ["Regimen Fiscal, no es valido para el tipo de persona fiscal"];
+                            $flag_error               = true;
+                        }//end if
+
+                        if($flag_error == true){
+                            $data_error[] = ["rfc"=>$data[$i]["C"],"razon_social"=>$data[$i]["A"],"errors"=>$error_];
+                        }else{
+                            $customersModel->save();
+                            $data_success[] = ["rfc"=>$customersModel->rfc,"razon_social"=>$customersModel->razon_social];
+                        }//end if
+
+                    } else {
+                        $data_error[] = ["rfc"=>$data[$i]["C"],"razon_social"=>$data[$i]["A"],"errors"=>$customersModel->errors];
+                    }
+                }//end foreach
+
+
+                    echo "<pre>";
+                    var_dump($data_error);
+                    echo "</pre>";
+                    echo "<pre>";
+                    var_dump($data_success);
+                    echo "</pre>";
+                    die();
+                /*foreach ($data as $row) {
+                    $customersModel    = new Customers();
+                    $customersModel->attributes = $row;
+
+                    echo "<pre>";
+                    var_dump($row);
+                    echo "</pre>";
+                    if ($customersModel->validate()) {
+                        echo "<pre>";
+                        var_dump($customersModel);
+                        echo "</pre>";
+                    } else {
+                        echo "<pre>";
+                        var_dump($customersModel->errors);
+                        echo "</pre>";
+                        // Maneja los errores de validación, por ejemplo, $model->getErrors()
+                    }
+                }//end foreach*/
+
                 echo "<pre>";
                 var_dump($validHeaders);
                 echo "</pre>";
-                //$data        = $worksheet->toArray();
                 /*echo "<pre>";
                 var_dump($cellValue_a1);
                 echo "</pre>";*/
