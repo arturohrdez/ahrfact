@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-md-8">
+        <div class="col-12">
             <div id="render_importForm" class="card card-primary card-outline">
 
                 <?php echo $this->render('_importForm', [

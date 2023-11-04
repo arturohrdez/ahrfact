@@ -82,6 +82,11 @@ class CustomersController extends Controller
         return true;
     }//end function
 
+    private function validInsertCustomer($rfc,$cliente_id){
+        $searchCustomer = Customers::find()->where(["rfc"=>$rfc,"cliente_id"=>$cliente_id])->andWhere(['<>',"estatus",2])->orderBy(['id' => SORT_DESC])->count();
+        return $searchCustomer;
+    }//end function
+
     public function actionImport(){
         $model = new ExcelUploadForm();
 
@@ -98,12 +103,16 @@ class CustomersController extends Controller
                     return $this->renderAjax('_importForm',["model"=>$model]);   
                 }//end if
 
-                $modelUser    = User::findOne(Yii::$app->user->identity->id);
-                $data         = $worksheet->toArray(null, true, true, true);
-                $data_success = [];
-                $data_error   = [];
-                $flag_error   = false;
-                for ($i=2; $i < count($data) ; $i++) {
+                $modelUser  = User::findOne(Yii::$app->user->identity->id);
+                $data       = $worksheet->toArray(null, true, true, true);
+                $info       = [];
+                $flag_error = false;
+                for ($i=2; $i <= count($data) ; $i++) {
+                    $validCustomer = $this->validInsertCustomer($data[$i]["C"],$modelUser->cliente_id);
+                    if($validCustomer > 0){
+                        continue;
+                    }//end if
+
                     $customersModel                   = new Customers();
                     $customersModel->cliente_id       = $modelUser->cliente_id;
                     $customersModel->razon_social     = $data[$i]["A"];
@@ -129,6 +138,11 @@ class CustomersController extends Controller
                     $customersModel->estatus          = 1;
 
                     if ($customersModel->validate()) {
+                        if(strlen($customersModel->forma_pago) < 2){
+                            $error_["forma_pago"] = ["La clave de forma de pago no coincide con alguna dentro del catálogo propocionado por el SAT."];
+                            $flag_error         = true;
+                        }//end if
+
                         if($customersModel->tipo == "FISICA"){
                             $valid_uso_cfdi       = isset(Yii::$app->params["uso_cfdi_fisica"][$customersModel->uso_cfdi]) ? true : false;
                             $valid_regimen_fiscal = isset(Yii::$app->params["regimen_fiscal_fisica"][$customersModel->regimen_fiscal]) ? true : false;
@@ -148,53 +162,27 @@ class CustomersController extends Controller
                         }//end if
 
                         if($flag_error == true){
-                            $data_error[] = ["rfc"=>$data[$i]["C"],"razon_social"=>$data[$i]["A"],"errors"=>$error_];
+                            $info[$i] = ["rfc"=>$data[$i]["C"],"razon_social"=>$data[$i]["A"],"errors"=>$error_];
                         }else{
                             $customersModel->save();
-                            $data_success[] = ["rfc"=>$customersModel->rfc,"razon_social"=>$customersModel->razon_social];
+                            $info[$i] = ["rfc"=>$customersModel->rfc,"razon_social"=>$customersModel->razon_social,"errors"=>false];
                         }//end if
 
                     } else {
-                        $data_error[] = ["rfc"=>$data[$i]["C"],"razon_social"=>$data[$i]["A"],"errors"=>$customersModel->errors];
+                        $info[$i] = ["rfc"=>$data[$i]["C"],"razon_social"=>$data[$i]["A"],"errors"=>$customersModel->errors];
                     }
                 }//end foreach
 
-
-                    echo "<pre>";
-                    var_dump($data_error);
-                    echo "</pre>";
-                    echo "<pre>";
-                    var_dump($data_success);
-                    echo "</pre>";
-                    die();
-                /*foreach ($data as $row) {
-                    $customersModel    = new Customers();
-                    $customersModel->attributes = $row;
-
-                    echo "<pre>";
-                    var_dump($row);
-                    echo "</pre>";
-                    if ($customersModel->validate()) {
-                        echo "<pre>";
-                        var_dump($customersModel);
-                        echo "</pre>";
-                    } else {
-                        echo "<pre>";
-                        var_dump($customersModel->errors);
-                        echo "</pre>";
-                        // Maneja los errores de validación, por ejemplo, $model->getErrors()
-                    }
-                }//end foreach*/
-
-                echo "<pre>";
-                var_dump($validHeaders);
-                echo "</pre>";
-                /*echo "<pre>";
-                var_dump($cellValue_a1);
-                echo "</pre>";*/
+                if(!$flag_error){
+                    $type_flash = "success";
+                    $msg_flash = "El archivo <strong>".$model["excelFile"]->name."</strong> se importo conrrectamente.";
+                }else{
+                    $type_flash = "danger";
+                    $msg_flash = "El archivo <strong>".$model["excelFile"]->name."</strong> contiene algunos errores, por favor verifique la información que aparece abajo, realice los ajustes y vuelva a intentarlo.";
+                }
+                Yii::$app->session->setFlash($type_flash, $msg_flash);
+                return $this->renderAjax('_importForm',["model"=>$model,"info"=>$info]);
             }
-            echo "entra";
-            die();
         }//end if
 
         return $this->render('import',["model"=>$model]);

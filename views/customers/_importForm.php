@@ -64,6 +64,60 @@ use yii\bootstrap5\ActiveForm;
             <!-- <div id="upload-response" style="display: none;"></div> -->
         </div>    		
     </div>
+
+
+    <?php
+    if(isset($info)){
+    ?>
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Reporte de errores en la importación.</h2>
+                </div>
+
+                <div class="card-body p-0">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%;" class="text-center">Fila</th>
+                                <th style="width: 20%;" >RFC</th>
+                                <th style="width: 30%;">Razón Social</th>
+                                <th style="width: 40%;">Detalles</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            foreach ($info as $fila => $error) {
+                                ?>
+                                <tr>
+                                    <td class="text-center"><?php echo $fila; ?></td>
+                                    <td><?php echo $error["rfc"]; ?></td>
+                                    <td><?php echo $error["razon_social"]; ?></td>
+                                    <td>
+                                        <?php
+                                            if(!$error["errors"]){
+                                                echo '<span class="alert-success">Importado Exitosamente</span>';
+                                            }else{
+                                                foreach ($error["errors"] as $error_detail) {
+                                                    echo $error_detail[0]."<br>";
+                                                }//end foreach
+                                            }//end if
+                                        ?>
+                                    </td>
+                                </tr>
+                                <?php
+                            }//end foreach
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php 
+    }//end if 
+    ?>
 </div>
 
 <?php
