@@ -279,6 +279,18 @@ class CustomersController extends Controller
         return ["opt_cfdi"=>$opt_html_cfdi,"opt_regimen"=>$opt_html_regimen];
     }//end function
 
+    public function actionGetestadosbypais(){
+        $code_countrie = Yii::$app->request->post()["clave_pais"];
+        $states        = Yii::$app->params['states'][$code_countrie];
+
+        $opt_html_states = "<option value=''>-- Selecciona una estado --</option>";
+        foreach ($states as $key => $option) {
+            $opt_html_states .= "<option value='{$key}'>{$option}</option>";
+        }//end foreach
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        return ["states"=>$opt_html_states];
+    }//end function
+
     /**
      * Deletes an existing Customers model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

@@ -96,28 +96,37 @@ $__required__ = " <span class='text-danger'>*</span>";
         </div>
     </div>
     <div class="row">
-        <?php echo $form->field($model, 'pais',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['disabled'=>true,'maxlength' => true])->label($model->getAttributeLabel('pais').$__required__) ?>
+        <?php echo $form->field($model, 'pais',['options'=>['class'=>'col-12 col-md-3 mt-3','style'=>'']])
+                    ->widget(Select2::classname(),[
+                        'name' => 'pais',
+                        'data' => Yii::$app->params['countries'],
+                        'options'       => ['placeholder' => '-- Seleccione un país --'],
+                        'pluginOptions' => [
+                            'allowClear'    => true,
+                        ],
+                    ])
+                    ->label($model->getAttributeLabel('pais')); ?>
         
         <?php echo $form->field($model, 'estado',['options'=>['class'=>'col-12 col-md-3 mt-3','style'=>'']])
                 ->widget(Select2::classname(),[
-                    'name'          => 'ticket_id', 
-                    'data'          => Yii::$app->params['states'],
+                    'name'          => 'estado', 
+                    'data'          => [],
                     'options'       => ['placeholder' => '-- Seleccione un estado --'],
                     'pluginOptions' => [
                         'allowClear'    => true,
                     ],
                 ])
-                ->label($model->getAttributeLabel('estado').$__required__);
+                ->label($model->getAttributeLabel('estado'));
             ?>
 
-        <?php echo $form->field($model, 'ciudad',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('ciudad').$__required__) ?>
-        <?php echo $form->field($model, 'municipio',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('municipio').$__required__) ?>
+        <?php echo $form->field($model, 'ciudad',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('ciudad')) ?>
+        <?php echo $form->field($model, 'municipio',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('municipio')) ?>
     </div>
     <div class="row">
         <?php echo $form->field($model, 'codigo_postal',['options'=>['class'=>'col-12 col-md-2 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('codigo_postal').$__required__) ?>
-        <?php echo $form->field($model, 'colonia',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('colonia').$__required__) ?>
-        <?php echo $form->field($model, 'calle',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('calle').$__required__) ?>
-        <?php echo $form->field($model, 'no_exterior',['options'=>['class'=>'col-12 col-md-2 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('no_exterior').$__required__) ?>
+        <?php echo $form->field($model, 'colonia',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('colonia')) ?>
+        <?php echo $form->field($model, 'calle',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('calle')) ?>
+        <?php echo $form->field($model, 'no_exterior',['options'=>['class'=>'col-12 col-md-2 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('no_exterior')) ?>
         <?php echo $form->field($model, 'no_interior',['options'=>['class'=>'col-12 col-md-2 mt-3']])->textInput(['maxlength' => true]) ?>
     </div>
     <div class="row">
@@ -160,10 +169,10 @@ $__required__ = " <span class='text-danger'>*</span>";
 
 <?php
 $URL_opcionescfdi = Url::to(['customers/getopciones']);
+$URL_opcionespais = Url::to(['customers/getestadosbypais']);
 $js = <<<JS
 $(document).ready(function(){
-    $("#customers-rfc").on('keyup', function(e) {
-        //console.log($(this).val());
+    $("#customers-rfc").on('keyup change', function(e) {
         var uppercase = $(this).val().toUpperCase();
         $(this).val(uppercase);
 
@@ -185,31 +194,36 @@ $(document).ready(function(){
         }//end if
 
         if(flag_rfc == true){
-            //console.log(type_rfc);
             $.ajax({
                 url: '{$URL_opcionescfdi}', // Reemplaza con la URL adecuada
                 type: 'post',
                 data: type_rfc,
-                beforeSend: function(){
-                    //$(".field-customers-uso_cfdi").prepend('<i class="text-primary loader fas fa-spinner fa-pulse"></i>');
-                    //$(".field-customers-regimen_fiscal").prepend('<i class="text-primary loader fas fa-spinner fa-pulse"></i>');
-                    //console.log("buscando datos uso cfdi");
-                },
+                beforeSend: function(){},
                 success: function(response) {
-                    //$(".loader").remove();
-                    // Actualizar la sección de la página con la respuesta
                     $('#customers-uso_cfdi').html(response.opt_cfdi);
                     $("#customers-uso_cfdi").attr("disabled", false);
 
                     $('#customers-regimen_fiscal').html(response.opt_regimen);
                     $("#customers-regimen_fiscal").attr("disabled", false);
-
-
                 }
             });
         }
     });
 
+    $("#customers-pais").on('change', function(e){
+        var pais = $(this).val();
+        $.ajax({
+                url: '{$URL_opcionespais}', // Reemplaza con la URL adecuada
+                type: 'post',
+                data: {'clave_pais':pais},
+                beforeSend: function(){
+                    console.log("buscando estados by pais");
+                },
+                success: function(response) {
+                    $('#customers-estado').html(response.states);
+                }
+            });
+    });
 
     $("#customersForm").on('beforeSubmit',function(e) {
         e.preventDefault();

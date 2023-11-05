@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="row">
                         <div class="col-md-12 col-lg-3">
                             <label><?php echo $model->getAttributeLabel('pais'); ?></label><br>
-                            <?php echo $model->pais; ?>
+                            <?php echo !empty($model->pais) ? Yii::$app->params["countries"][$model->pais] : ""; ?>
                         </div>
                         <div class="col-md-12 col-lg-3">
                             <label><?php echo $model->getAttributeLabel('estado'); ?></label><br>
