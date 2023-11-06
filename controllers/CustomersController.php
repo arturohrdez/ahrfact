@@ -107,12 +107,8 @@ class CustomersController extends Controller
                 $data       = $worksheet->toArray(null, true, true, true);
                 $info       = [];
                 $flag_error = false;
+                $error_     = [];
                 for ($i=2; $i <= count($data) ; $i++) {
-                    $validCustomer = $this->validInsertCustomer($data[$i]["C"],$modelUser->cliente_id);
-                    if($validCustomer > 0){
-                        continue;
-                    }//end if
-
                     $customersModel                   = new Customers();
                     $customersModel->cliente_id       = $modelUser->cliente_id;
                     $customersModel->razon_social     = $data[$i]["A"];
@@ -138,9 +134,22 @@ class CustomersController extends Controller
                     $customersModel->estatus          = 1;
 
                     if ($customersModel->validate()) {
+                        $validCustomer = $this->validInsertCustomer($data[$i]["C"],$modelUser->cliente_id);
+                        if($validCustomer > 0){
+                            if($data[$i]["C"] != "XAXX010101000" && $data[$i]["C"] != "XEXX010101000"){
+                                $error_["rfc"] = ["EL RFC '{$data[$i]["C"]}' ya se encuentra en uso."];
+                                $flag_error    = true;
+                            }else{
+                                if(isset($error_["rfc"])):
+                                    unset($error_["rfc"]);
+                                endif;
+                                $flag_error    = false;
+                            }//end if
+                        }//end if
+
                         if(strlen($customersModel->forma_pago) < 2){
                             $error_["forma_pago"] = ["La clave de forma de pago no coincide con alguna dentro del catálogo propocionado por el SAT."];
-                            $flag_error         = true;
+                            $flag_error           = true;
                         }//end if
 
                         if(!isset(Yii::$app->params["countries"][$customersModel->pais])){

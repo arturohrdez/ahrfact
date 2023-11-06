@@ -17,7 +17,7 @@ class m231024_152011_creata_customers_table extends Migration
             'razon_social'     => $this->string(125)->notNull(),
             'nombre_comercial' => $this->string(150),
             'email'            => $this->string(120),
-            'telefono'         => $this->string(10),
+            'telefono'         => $this->string(15),
             'rfc'              => $this->string(13)->notNull(),
             'uso_cfdi'         => $this->string(30)->notNull(),
             'regimen_fiscal'   => $this->string(80)->notNull(),

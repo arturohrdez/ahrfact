@@ -54,8 +54,11 @@ class Customers extends \yii\db\ActiveRecord
             [['razon_social'], 'string', 'max' => 125],
             [['email'], 'string', 'max' => 125],
             ['email', 'email'],
-            ['telefono', 'number'],
-            ['telefono', 'string', 'length' => 10],
+            /*[['telefono'], 'number'],
+            [['telefono'], 'string', 'max' => 15],*/
+            [['telefono'], 'number'],
+            [['telefono'], 'integer'],
+            [['telefono'], 'compare', 'compareValue' => 10 ** 15, 'operator' => '<=', 'type' => 'number','message' => 'El valor máximo permitido es 15 dígitos para el Teléfono.'],
             [['nombre_comercial'], 'string', 'max' => 150],
             [['rfc'], 'string', 'max' => 13],
             [['uso_cfdi'], 'string', 'max' => 30],
