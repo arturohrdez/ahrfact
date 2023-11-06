@@ -14,7 +14,17 @@ use yii\bootstrap5\ActiveForm;
 <div class="card-body pad table-responsive">
     <div class="row">
         <div class="col-12">
-            <b>Importante: 'Nombre o Razón Social'</b>, <b>'RFC'</b> , <b>'Uso CFDI'</b> y<b>Régimen Fiscal</b> son campos obligatorios. 
+            <div class="alert bg-yellow text-center">
+                Importante: <b>'Nombre o Razón Social' , 'RFC' , 'Uso CFDI' , 'Régimen Fiscal' y 'Código Postal'</b> son campos obligatorios. 
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-6">
+            <ul>
+                <li>Los registros importados apareceran en el listado de Clientes.</li>
+                <li>Descarga aquí la <?php echo Html::a('plantilla base', $url = Url::to('/sistema/index'), ['class' => 'text-primary']); ?>, para que te sirva como referencia de cómo debe crearse el archivo de Excel. </li>
+            </ul>
         </div>
     </div>
     <div class="row mt-3">
