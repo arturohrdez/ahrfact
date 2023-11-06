@@ -143,12 +143,24 @@ class CustomersController extends Controller
                             $flag_error         = true;
                         }//end if
 
+                        if(!isset(Yii::$app->params["countries"][$customersModel->pais])){
+                            if(strtolower($customersModel->pais) == "méxico"  || strtolower($customersModel->pais) == "mexico"){
+                                $customersModel->pais = "MEX";
+                            }else{                            
+                                $error_["pais"] = ["La clave del país no coincide con alguna dentro del catálogo propocionado por el SAT."];
+                                $flag_error     = true;
+                            }//end if
+                        }//end if
+
                         if($customersModel->tipo == "FISICA"){
                             $valid_uso_cfdi       = isset(Yii::$app->params["uso_cfdi_fisica"][$customersModel->uso_cfdi]) ? true : false;
                             $valid_regimen_fiscal = isset(Yii::$app->params["regimen_fiscal_fisica"][$customersModel->regimen_fiscal]) ? true : false;
                         }elseif($customersModel->tipo =  "MORAL"){
                             $valid_uso_cfdi       = isset(Yii::$app->params["uso_cfdi_moral"][$customersModel->uso_cfdi]) ? true : false;
                             $valid_regimen_fiscal = isset(Yii::$app->params["regimen_fiscal_moral"][$customersModel->regimen_fiscal]) ? true : false;
+                        }elseif($customersModel->tipo =  "GENERICO"){
+                            $valid_uso_cfdi       = isset(Yii::$app->params["uso_cfdi_generico"][$customersModel->uso_cfdi]) ? true : false;
+                            $valid_regimen_fiscal = isset(Yii::$app->params["regimen_fiscal_generico"][$customersModel->regimen_fiscal]) ? true : false;
                         }//end if
 
                         if(!$valid_uso_cfdi){
@@ -206,6 +218,9 @@ class CustomersController extends Controller
         if($rfc_length == 12){
             return  "MORAL";
         }elseif($rfc_length == 13){
+            if($rfc == "XAXX010101000" || $rfc == "XEXX010101000"){
+                return "GENERICO";
+            }
             return "FISICA";
         }
     }//end function

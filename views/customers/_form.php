@@ -40,8 +40,13 @@ $__required__ = " <span class='text-danger'>*</span>";
             }else{
                 if($model->tipo == "MORAL"){
                     $items = Yii::$app->params["uso_cfdi_moral"];
-                }elseif($model->tipo = "FISICA"){
+                }
+                if($model->tipo = "FISICA"){
                     $items = Yii::$app->params["uso_cfdi_fisica"];
+                }//end if
+
+                if($model->tipo = "GENERICO"){
+                    $items = Yii::$app->params["uso_cfdi_generico"];
                 }//end if
                 $disabled_cfdi = false;
             }//end if
@@ -68,9 +73,17 @@ $__required__ = " <span class='text-danger'>*</span>";
             }else{
                 if($model->tipo == "MORAL"){
                     $items = Yii::$app->params["regimen_fiscal_moral"];
-                }elseif($model->tipo = "FISICA"){
+                }
+
+                if($model->tipo = "FISICA"){
                     $items = Yii::$app->params["regimen_fiscal_fisica"];
                 }//end if
+
+                if($model->tipo = "GENERICO"){
+                    $items = Yii::$app->params["regimen_fiscal_generico"];
+                }//end if
+
+
                 $disabled_regimen = false;
             }//end if
             echo $form->field($model, 'regimen_fiscal',['options'=>['class'=>'col-12 col-md-4 mt-3','style'=>'']])
@@ -183,9 +196,13 @@ $(document).ready(function(){
             type_rfc = {"cfdi":"uso_cfdi_moral","rf":"regimen_fiscal_moral"};
             flag_rfc = true;
         }else if(_rfc_ == 13){
-            type_rfc = "uso_cfdi_fisica";
-            type_rfc = {"cfdi":"uso_cfdi_fisica","rf":"regimen_fiscal_fisica"};
-            flag_rfc = true;
+            if(uppercase == "XAXX010101000" || uppercase == "XEXX010101000"){
+                type_rfc = {"cfdi":"uso_cfdi_generico","rf":"regimen_fiscal_generico"};
+                flag_rfc = true;
+            }else{            
+                type_rfc = {"cfdi":"uso_cfdi_fisica","rf":"regimen_fiscal_fisica"};
+                flag_rfc = true;
+            }//end if
         }else{
             $("#customers-uso_cfdi").attr('disabled',true);
             $("#customers-regimen_fiscal").attr('disabled',true);

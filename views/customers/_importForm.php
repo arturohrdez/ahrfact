@@ -99,8 +99,10 @@ use yii\bootstrap5\ActiveForm;
                                             if(!$error["errors"]){
                                                 echo '<span class="alert-success">Importado Exitosamente</span>';
                                             }else{
+                                                $a = 1;
                                                 foreach ($error["errors"] as $error_detail) {
-                                                    echo $error_detail[0]."<br>";
+                                                    echo $a."- ".$error_detail[0]."<br>";
+                                                    $a++;
                                                 }//end foreach
                                             }//end if
                                         ?>
