@@ -256,7 +256,7 @@ return [
         "Nombre Comercial",
         "RFC",
         "Uso CFDI",
-        "Regimen Fiscal",
+        "Régimen Fiscal",
         "Forma de Pago",
         "Calle",
         "NoExterior",
@@ -269,6 +269,6 @@ return [
         "País",
         "Código Postal",
         "Teléfono",
-        "Email"
+        "Correo Electrónico"
     ],
 ];
