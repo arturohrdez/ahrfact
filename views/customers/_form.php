@@ -16,6 +16,17 @@ $form         = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data',
 $__required__ = " <span class='text-danger'>*</span>";
 ?>
 <div class="customers-form card-body">
+    <?php if (Yii::$app->session->hasFlash('danger')): ?>
+        <div class="row-fluid mt-2" align="center">
+            <div class="col-sm-12">
+                <div class="alert bg-danger alert-dismissable">
+                   <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                   <i class="icon fa fa-check"></i> <?= Yii::$app->session->getFlash('danger') ?>
+               </div>
+            </div>
+        </div>
+   <?php endif; ?>
+
     <div class="row">
         <div class="col-12">
             <h3>Datos del Cliente</h3>
@@ -253,11 +264,11 @@ $(document).ready(function(){
             type: 'post',
             data: formData,
             beforeSend: function(){
-                $(".customers-create").html('<div class="row"><div class="col-12 bg-white p-5"><div class="row justify-content-center border border-secodnary border-top-0"><div class="spinner-border text-teal" role="status"></div></div></div></div>');
+                $("#divEditForm").html('<div class="row"><div class="col-12 bg-white p-5"><div class="row justify-content-center border border-secodnary border-top-0"><div class="spinner-border text-teal" role="status"></div></div></div></div>');
             },
             success: function(response) {
                 // Actualizar la sección de la página con la respuesta
-                $('.customers-create').html(response);
+                $('#divEditForm').html(response);
             },
             error: function(erro) {
                 // Manejar errores de Ajax

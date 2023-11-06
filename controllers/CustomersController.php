@@ -243,10 +243,20 @@ class CustomersController extends Controller
     {
         $model       = new Customers();
         $modelUser   = User::findOne(Yii::$app->user->identity->id);
-        $model->pais = "México";
 
         if ($model->load(Yii::$app->request->post()) ) {
             //return $this->redirect(['view', 'id' => $model->id]);
+            $validCustomerRFC = $this->validInsertCustomer($model->rfc,$modelUser->cliente_id);
+            if($validCustomerRFC > 0){
+                if($model->rfc != "XAXX010101000" && $model->rfc != "XEXX010101000"){
+                    Yii::$app->session->setFlash('danger', "EL RFC :  <strong>".$model->rfc."</strong> ya se encuentra en uso.</strong>");
+                    //return $this->redirect(['index']);
+                    return $this->renderAjax('create', [
+                        'model' => $model,
+                    ]);
+                }//end if
+            }//end if
+
             $model->tipo = $this->decodeTipoPersona($model->rfc);
             $model->save();
             return $this->redirect(['index']);
@@ -269,12 +279,27 @@ class CustomersController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->tipo = $this->decodeTipoPersona($model->rfc);
-            $model->save();
-            Yii::$app->session->setFlash('success', "Se actualizo correctamente la información para :  <strong>".$model->razon_social."</strong>");
-            return $this->redirect(['index']);
-        }
+        if(Yii::$app->request->isPost){
+            if($model->rfc != Yii::$app->request->post()["Customers"]["rfc"]){
+                $validCustomerRFC = $this->validInsertCustomer($model->rfc,$model->cliente_id);
+                if($validCustomerRFC > 0){
+                    if($model->rfc != "XAXX010101000" && $model->rfc != "XEXX010101000"){
+                        Yii::$app->session->setFlash('danger', "EL RFC :  <strong>".Yii::$app->request->post()["Customers"]["rfc"]."</strong> ya se encuentra en uso.</strong>");
+                        return $this->renderAjax('update', [
+                            'model' => $model,
+                        ]);
+                    }//end if
+                }//end if
+            }//end if
+
+            if ($model->load(Yii::$app->request->post())) {
+                $model->tipo = $this->decodeTipoPersona($model->rfc);
+                $model->save();
+                Yii::$app->session->setFlash('success', "Se actualizo correctamente la información para :  <strong>".$model->razon_social."</strong>");
+                return $this->redirect(['index']);
+            }//end if
+        }//end if
+
 
         return $this->renderAjax('update', [
             'model' => $model,
