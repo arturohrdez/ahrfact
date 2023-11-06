@@ -49,7 +49,7 @@ use yii\bootstrap5\ActiveForm;
 
             <div class="row">
                 <div class="col-12 text-center">
-                    <?php echo Html::submitButton('<i class="fas fa-file-upload"></i>&nbsp;&nbsp;&nbsp;Subir archivo', ['class' => 'btn btn-primary rounded-pill']); ?>
+                    <?php echo Html::submitButton('<i class="fas fa-file-upload"></i>&nbsp;&nbsp;&nbsp;Subir archivo', ['id'=>'btn-uploadfile','class' => 'btn btn-primary rounded-pill']); ?>
                 </div>
             </div>
 
@@ -138,7 +138,9 @@ $js = <<<JS
                 processData: false,
                 contentType: false,
                 beforeSend: function(){
+                    $("#btn-uploadfile").html('<i class="fas fa-file-upload"></i>&nbsp;&nbsp;&nbsp;Procesando ...');
                     console.log("enviando archivo");
+                    $("#btn-uploadfile").attr("disabled","true");
                 },
                 success: function(response) {
                     $("#render_importForm").html(response);
