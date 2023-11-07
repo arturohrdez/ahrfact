@@ -131,17 +131,37 @@ $__required__ = " <span class='text-danger'>*</span>";
                     ])
                     ->label($model->getAttributeLabel('pais')); ?>
         
-        <?php echo $form->field($model, 'estado',['options'=>['class'=>'col-12 col-md-3 mt-3','style'=>'']])
+        <?php
+            if($model->pais == "MEX" || $model->pais == "USA" || $model->pais == "CAN"){
+                $estados_items         = Yii::$app->params["states"][$model->pais];
+                $disabled_select_state = false;
+                $display_select_state  = 'display:block';
+            }else{
+                $estados_items         = [];
+                $disabled_select_state = true;
+                $display_select_state  = 'display:none';
+            }//end if
+            echo $form->field($model, 'estado',['options'=>['class'=>'col-12 col-md-3 mt-3','id'=>'customers-estado-selectdiv','style'=>$display_select_state]])
                 ->widget(Select2::classname(),[
                     'name'          => 'estado', 
-                    'data'          => [],
-                    'options'       => ['placeholder' => '-- Seleccione un estado --'],
+                    'data'          => $estados_items,
+                    'options'       => ['placeholder' => '-- Seleccione un estado --','disabled'=>$disabled_select_state],
                     'pluginOptions' => [
                         'allowClear'    => true,
                     ],
                 ])
                 ->label($model->getAttributeLabel('estado'));
             ?>
+
+        <?php
+            if($model->pais != "MEX" && $model->pais != "USA" && $model->pais != "CAN"){
+                $disabled_input_state = false;
+                $display_input_state = 'display:block';
+            }else{
+                $disabled_input_state = true;
+                $display_input_state = 'display:none';
+            }//end if
+            echo $form->field($model, 'estado',['options'=>['class'=>'col-12 col-md-3 mt-3','id'=>'customers-estado-textdiv','style'=>$display_input_state]])->textInput(['disabled' => $disabled_input_state,'id'=>'customers-estado-textinput'])->label($model->getAttributeLabel('estado')); ?>
 
         <?php echo $form->field($model, 'ciudad',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('ciudad')) ?>
         <?php echo $form->field($model, 'municipio',['options'=>['class'=>'col-12 col-md-3 mt-3']])->textInput(['maxlength' => true])->label($model->getAttributeLabel('municipio')) ?>
@@ -240,7 +260,13 @@ $(document).ready(function(){
 
     $("#customers-pais").on('change', function(e){
         var pais = $(this).val();
-        $.ajax({
+        if(pais == "MEX" || pais == "USA" || pais == "CAN"){
+            $("#customers-estado-textdiv").hide();
+            $("#customers-estado-textinput").attr("disabled",true);
+            $("#customers-estado-selectdiv").show();
+            $("#customers-estado").attr("disabled",false);
+
+            $.ajax({
                 url: '{$URL_opcionespais}', // Reemplaza con la URL adecuada
                 type: 'post',
                 data: {'clave_pais':pais},
@@ -251,6 +277,13 @@ $(document).ready(function(){
                     $('#customers-estado').html(response.states);
                 }
             });
+        }else{
+            $("#customers-estado-selectdiv").hide();
+            $('#customers-estado').attr("disabled","true");
+
+            $("#customers-estado-textdiv").show();
+            $("#customers-estado-textinput").attr('disabled', false);
+        }//end if
     });
 
     $("#customersForm").on('beforeSubmit',function(e) {

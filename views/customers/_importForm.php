@@ -7,23 +7,40 @@ use yii\bootstrap5\ActiveForm;
 
 <div class="card-header">
     <div class="col-12">
-       <strong><h2>Importa aquí tu catálogo de clientes.</h2></strong>
+       <strong><h2>Instrucciones y requerimientos para una importación exitosa.</h2></strong>
    </div>
 </div>
 
 <div class="card-body pad table-responsive">
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-12">
             <div class="alert bg-yellow text-center">
                 Importante: <b>'Nombre o Razón Social' , 'RFC' , 'Uso CFDI' , 'Régimen Fiscal' y 'Código Postal'</b> son campos obligatorios. 
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="row mt-3">
-        <div class="col-6">
+        <div class="col-12">
             <ul>
-                <li>Los registros importados apareceran en el listado de Clientes.</li>
                 <li>Descarga aquí la <?php echo Html::a('plantilla base', $url = Url::to('/sistema/index'), ['class' => 'text-primary']); ?>, para que te sirva como referencia de cómo debe crearse el archivo de Excel. </li>
+                <li>Importante: <b>'Nombre o Razón Social' , 'RFC' , 'Uso CFDI' , 'Régimen Fiscal' y 'Código Postal'</b> son campos obligatorios.</li>
+                <li>No borres, ni cambies el nombre de los títulos, ni el orden de las columnas.</li>
+                <li>Para agregar clientes nuevos y no cuenten con RFC puede agregarlos con el RFC genérico que proporciona el SAT <b>XAXX010101000</b></li>
+                <li>Si deseas agregar un cliente extranjero utiliza el RFC genérico que proporciona el SAT <b>XEXX010101001</b></li>
+                <li>En el caso de los RFC genéricos, puedes repetirlos con varios clientes sólo cambias los datos del cliente para que se guarde cada uno.</li>
+                <li>No deberá repetirse ningún RFC, excepto los RFC genéricos, que se mencionan en los puntos 2 y 3.</li>
+                <li>El sistema ignorará filas que tengan RFC ya registrados o inválidos.</li>
+                <li><b>"Uso CFDI SAT"</b> - Ésta columna es un nuevo requerimiento obligatorio del SAT, para capturar la clave del Uso del CFDI que le dará tu cliente, puedes ubicarla <?php echo Html::a('¡Aquí!', $url = Url::to('/sistema/index'), ['class' => 'text-primary']); ?>.</li>
+                <li><b>"Regimen Fiscal SAT"</b> - Ésta columna es un nuevo requerimiento obligatorio del SAT. Para capturar el Regimen Fiscal del CFDI que le dará tu cliente, puedes ubicarla <?php echo Html::a('¡Aquí!', $url = Url::to('/sistema/index'), ['class' => 'text-primary']); ?> </li>
+                <li><b>"Codigo Postal"</b> - Se debe registrar el código postal del domicilio fiscal de tu cliente. Lo puedes ver en su Constancia de Situacion Fiscal.</li>
+                <li><b>"Forma de Pago"</b> - Si tu cliente no cuenta con forma de pago puede capturar "NA" para indicar al sistema que el cliente no tiene forma de pago, pero en caso que desee incluírla, debes capturar los números correspondientes según el catálogo Formas de Pago del SAT que puedes consultar <?php echo Html::a('¡Aquí!', $url = Url::to('/sistema/index'), ['class' => 'text-primary']); ?></li>
+                <li>Sólo deberás elegir una sola forma de pago, aunque tu cliente realice el pago con varias formas, deberás elegir la que represente la mayor parte de los ingresos de la factura.</li>
+                <li><b>"Contacto, Calle, NoExterior, NoInterior, Colonia, Municipio, Ciudad, Referencia, Estado, País, Código Postal, Teléfono"</b> Todas éstas son columnas que incluyen datos de contacto de tus clientes, así como su domicilio fiscal que aparecerá en la factura que le generes.</li>
+                <li>Cuando se captura un Código Postal éste debe de contener 5 dígitos. Ejemplo: 07090. </li>
+                <li>
+                    <b>En caso de errores, se muestra un informe al finalizar la importación de su archivo. No olvides revisarlo, pues ahí se te indica que fila(s) no pudieron ser importadas.</b>
+                </li>
+                <li><b>Evita subir el mismo archivo varias veces, sin antes haber revisado el informe. Pues así evitarás crear clientes duplicados.</b></li>
             </ul>
         </div>
     </div>
